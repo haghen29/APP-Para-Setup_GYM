@@ -1,14 +1,14 @@
-# {nombre del proyecto}
+#  Setup_Gym
 
 **Descripción:**
 {breve explicación del proyecto}
 
 Integrantes:
 
-- {Apellido, Nombre} | [@username](https://github.com/username)
-- {Apellido, Nombre} | [@username](https://github.com/username)
-- {Apellido, Nombre} | [@username](https://github.com/username)
-- {Apellido, Nombre} | [@username](https://github.com/username)
+- Borio Santino | [@username](https://github.com/username)
+- Burgos Leandro | [@username](https://github.com/username)
+- Estigarribia Adrian | [@username](https://github.com/username)
+- {Ibarra Román | [@username](https://github.com/username)
 
 Proyecto institucional **E.E.S.T Nº4 de Berazategui**.
 
