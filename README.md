@@ -1,7 +1,7 @@
 #  Setup_Gym
 
 **Descripción:**
-{breve explicación del proyecto}
+Aplicación web orientada a gimnasios que permite gestionar la compra de maquinaria, controlar el stock de productos para la venta y optimizar la administración del negocio de forma eficiente.
 
 Integrantes:
 
@@ -14,12 +14,12 @@ Proyecto institucional **E.E.S.T Nº4 de Berazategui**.
 
 ## Elevator's Pitch
 
-- Para {cliente objetivo}
-- Quienes {necesidad y/o oportunidad}
-- El {nombre del proyecto} es un {categoría del producto}
-- Que {beneficio clave, razón para comprarlo}
-- Diferente a {otras soluciones existentes, por ejemplo...}
-- Nuestro proyecto {declaración de la diferencia}.
+- Para dueños y administradores de gimnasios
+- Quienes necesitan mejorar la gestión de compras, stock y crecimiento del negocio
+- El Setup_Gym es una aplicación web de gestión empresarial.
+- Que te permite organizar compras de maquinaria, controlar productos y facilitar el negocio.
+- Diferente a páginas o aplicaciones genéricas que no brindan un beneficio a tanto detalle.
+- Nuestro proyecto ofrece una solución específica para gimnasios, fácil de usar y adaptada a necesidades reales
 
 ## Requisitos
 
