@@ -6,9 +6,9 @@ Aplicación web orientada a gimnasios que permite gestionar la compra de maquina
 Integrantes:
 
 - Borio Santino | [@username](https://github.com/username)
-- Burgos Leandro | [@username](https://github.com/username)
+- Burgos Leandro | [@burgosleandro](https://github.com/burgosleandro)
 - Estigarribia Adrian | [@username](https://github.com/username)
-- {Ibarra Román | [@username](https://github.com/username)
+- Ibarra Román | [@username](https://github.com/username)
 
 Proyecto institucional **E.E.S.T Nº4 de Berazategui**.
 
