@@ -5,7 +5,7 @@ Aplicación web orientada a gimnasios que permite gestionar la compra de maquina
 
 Integrantes:
 
-- Borio Santino | [@username](https://github.com/username)
+- Borio Santino | [@haghen29](https://github.com/haghen29)
 - Burgos Leandro | [@burgosleandro](https://github.com/burgosleandro)
 - Estigarribia Adrian | [@adrianestigarribia](https://github.com/adrianestigarribia)
 - Ibarra Román | [@username](https://github.com/username)
