@@ -7,7 +7,7 @@ Integrantes:
 
 - Borio Santino | [@username](https://github.com/username)
 - Burgos Leandro | [@burgosleandro](https://github.com/burgosleandro)
-- Estigarribia Adrian | [@username](https://github.com/username)
+- Estigarribia Adrian | [@adrianestigarribia](https://github.com/adrianestigarribia)
 - Ibarra Román | [@username](https://github.com/username)
 
 Proyecto institucional **E.E.S.T Nº4 de Berazategui**.
