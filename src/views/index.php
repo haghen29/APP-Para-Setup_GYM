@@ -24,16 +24,17 @@
                 <div class="content s1">
                   <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">   
-    <a class="navbar-brand" href=""><img src="" alt="logo"></a>
+    <a class="navbar-brand" href=""><img src="img/ots.png" class="img-thumbnail" alt="inicio"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <a class="nav-link" href="#">Features</a>
-        <a class="nav-link" href="#">Pricing</a>
-        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        <a class="nav-link active" aria-current="page" href="#">Servicio</a>
+        <a class="nav-link active" aria-current="page" href="#">Nosotros</a>
+        <a class="nav-link active" aria-current="page" href="#">Clientes</a>
+        <a class="nav-link active" aria-current="page" href="#">Blog</a>
+        <a class="nav-link active" aria-current="page" href="#">Contacto</a>
       </div>
     </div>
   </div>
@@ -43,9 +44,26 @@
 
 <div class="col-12 col-md-6 col-lg-12">
                 <div class="content s6">
+<div class="row g-0">
+            <div class="col-12 col-md-6 col-lg-6">
+                <div>
+<h1>
+  CodeGYM_setup
+</h1>
 
-            
+                  <p class="text-center">
+                     <h3> Nuestro proyecto consiste en el desarrollo de un sistema integral de gestión para gimnasios, diseñado para optimizar y centralizar las tareas administrativas y operativas de este tipo de establecimientos. </h3> 
+                    </p>
+                    <p class="text-center">
+                      <h3>La plataforma está orientada a dueños, administradores, recepcionistas y entrenadores de gimnasios, brindándoles una herramienta moderna, intuitiva y fácil de utilizar para gestionar la información de sus clientes y las actividades diarias del negocio. </h3>
+                </p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6">
+                <div><img src="img/ima2.avif" class="img-fluid" alt="inicio"></div>
+            </div>
 
+</div>
                 </div>
             </div>
 
