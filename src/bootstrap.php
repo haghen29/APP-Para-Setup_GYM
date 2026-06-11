@@ -35,3 +35,44 @@ $app->get("/", function ($request, $response) use ($renderer) {
 $app->addErrorMiddleware($debug, true, true);
 
 return $app;
+
+
+
+// tp7
+// ruta productos
+$app->get("/productos", function (
+  Request $request,
+  Response $response,
+) use ($renderer){
+  return view($renderer, $response, "productos/index.php");
+});
+
+// ruta productos/id
+$app->get("/productos/{id}", function (
+  Request $request,
+  Response $response,
+  array $params,
+) use ($renderer){
+  return view($renderer, $response, "productos/show.php", [
+    "id" => $params["id"]
+  ]);
+});
+
+// ruta create/entidades
+$app->get("/create/entidades", function (
+  Request $request,
+  Response $response,
+) use ($renderer){
+  return view($renderer, $response, "productos/store.php");
+});
+
+
+//tp8
+$app->post("/auth/register", function (
+Request $request,
+Response $response
+) use ($renderer){
+  $body = $request->getParsedBody();
+
+  echo var_dump($body);
+});
