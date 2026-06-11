@@ -44,7 +44,7 @@ $app->get("/productos", function (
   Request $request,
   Response $response,
 ) use ($renderer){
-  return view($renderer, $response, "productos/index.php");
+  return view($renderer, $response, "entidad/index.php");
 });
 
 // ruta productos/id
@@ -53,7 +53,7 @@ $app->get("/productos/{id}", function (
   Response $response,
   array $params,
 ) use ($renderer){
-  return view($renderer, $response, "productos/show.php", [
+  return view($renderer, $response, "entidad/show.php", [
     "id" => $params["id"]
   ]);
 });
@@ -63,7 +63,7 @@ $app->get("/create/entidades", function (
   Request $request,
   Response $response,
 ) use ($renderer){
-  return view($renderer, $response, "productos/store.php");
+  return view($renderer, $response, "entidad/store.php");
 });
 
 
