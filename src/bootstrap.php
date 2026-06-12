@@ -3,6 +3,8 @@
 use Slim\Factory\AppFactory;
 use Slim\Views\PhpRenderer;
 use Dotenv\Dotenv;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -32,19 +34,12 @@ $app->get("/", function ($request, $response) use ($renderer) {
   return view($renderer, $response, "index.php");
 });
 
-$app->addErrorMiddleware($debug, true, true);
-
-return $app;
-
-
-
 // tp7
 // ruta productos
-$app->get("/productos", function (
-  Request $request,
-  Response $response,
+$app->get("/entidad/index2", function (
+$request, $response,
 ) use ($renderer){
-  return view($renderer, $response, "entidad/index.php");
+  return view($renderer, $response, "entidad/index2.php");
 });
 
 // ruta productos/id
@@ -66,7 +61,6 @@ $app->get("/create/entidades", function (
   return view($renderer, $response, "entidad/store.php");
 });
 
-
 //tp8
 $app->post("/auth/register", function (
 Request $request,
@@ -76,3 +70,7 @@ Response $response
 
   echo var_dump($body);
 });
+
+$app->addErrorMiddleware($debug, true, true);
+
+return $app;
