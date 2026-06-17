@@ -3,8 +3,8 @@
 use Slim\Factory\AppFactory;
 use Slim\Views\PhpRenderer;
 use Dotenv\Dotenv;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -34,18 +34,22 @@ $app->get("/", function ($request, $response) use ($renderer) {
   return view($renderer, $response, "index.php");
 });
 
+
+
+
 // tp7
 // ruta productos
-$app->get("/entidad/index2", function (
-$request, $response,
+$app->get("/productos", function (
+  $request,
+  $response,
 ) use ($renderer){
   return view($renderer, $response, "entidad/index2.php");
 });
 
 // ruta productos/id
 $app->get("/productos/{id}", function (
-  Request $request,
-  Response $response,
+  $request,
+  $response,
   array $params,
 ) use ($renderer){
   return view($renderer, $response, "entidad/show.php", [
@@ -61,15 +65,21 @@ $app->get("/create/entidades", function (
   return view($renderer, $response, "entidad/store.php");
 });
 
+
 //tp8
-$app->post("/auth/register", function (
-Request $request,
-Response $response
+$app->post("/entidad", function (
+  Request $request,
+  Response $response,
 ) use ($renderer){
   $body = $request->getParsedBody();
 
-  echo var_dump($body);
+  return view($renderer, $response, "entidad/created.php", [
+    "nombre"      => $body["nombre"] ?? "",
+    "precio"      => $body["precio"] ?? "",
+    "descripcion" => $body["descripcion"] ?? "",
+  ]);
 });
+
 
 $app->addErrorMiddleware($debug, true, true);
 
