@@ -1,7 +1,7 @@
 <main>
     <h1>✅ 200 OK</h1>
     <p>Si ves esto, el servidor de Slim y el motor de plantillas estan funcionando correctamente.</p>
-<main>
+ <main>
     <h1>Creando Producto</h1>
     <form action="/entidad" method="POST">
         <label for="nombre"><b>Nombre:</b></label><br>
