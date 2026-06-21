@@ -81,6 +81,33 @@ $app->post("/entidad", function (
 });
 
 
+// tp9
+$app->get("/entidad", function (
+  Request $request,
+  Response $response,
+) use ($renderer){
+
+  $productos = [
+    [ 'id' => 1, 'name' => 'Camiseta de futbol', 'price' => 15000],
+    [ 'id' => 2, 'name' => 'Botines', 'price' => 45000],
+    [ 'id' => 3, 'name' => 'Pelota', 'price' => 2000],
+    [ 'id' => 4, 'name' => 'Guantes de arquero', 'price' => 8000],
+    [ 'id' => 5, 'name' => 'Medias', 'price' => 1500],
+  ];
+
+  $queryParams = $request->getQueryParams();
+  $limit = $queryParams['limit'] ?? null;
+
+  if ($limit !== null && is_numeric($limit)) {
+    $productos = array_slice($productos, 0, (int)$limit);
+  }
+
+  return view($renderer, $response, "entidad/index2.php", [
+    "productos" => $productos
+  ]);
+});
+
+
 $app->addErrorMiddleware($debug, true, true);
 
 return $app;
