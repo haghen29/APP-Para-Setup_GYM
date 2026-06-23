@@ -9,12 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <style>
         .content {padding: 2em 0.5em; text-align: center;}
-        .s1 {background-color: #ca9f77;}
-        .s2 {background-color: #cbc168;}
-        .s3 {background-color: #a3c55b;}
-        .s4 {background-color: #76d179;}
-        .s5 {background-color: #85e3c1;}
-        .s6 {background-color: #79bfe5;}
+        .s1 {background-color: #dce3e6;}
+        .s2 {background-color: #dce3e6;}
+        .s3 {background-color: #dce3e6;}
+        .s4 {background-color: #dce3e6;}
+        .s5 {background-color: #000000;}
+        .s6 {background-color: #dce3e6;}
     </style>
 </head>
 <body>
@@ -22,19 +22,22 @@
         <div class="row g-0">
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="content s1">
-                  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">   
-    <a class="navbar-brand" href=""><img src="img/ots.png" class="img-thumbnail" alt="inicio"></a>
+    <a class="navbar-brand" href="#">
+    <img src="img/ots.png" alt="Bootstrap" width="80" height="80">
+
+  </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Servicio</a>
-        <a class="nav-link active" aria-current="page" href="#">Nosotros</a>
-        <a class="nav-link active" aria-current="page" href="#">Clientes</a>
-        <a class="nav-link active" aria-current="page" href="#">Blog</a>
-        <a class="nav-link active" aria-current="page" href="#">Contacto</a>
+        <a class="nav-link active" aria-current="page" href="#seccion1">Servicio</a>
+        <a class="nav-link active" aria-current="page" href="#seccion2">Nosotros</a>
+        <a class="nav-link active" aria-current="page" href="#seccion3">Clientes</a>
+        <a class="nav-link active" aria-current="page" href="#seccion4">Blog</a>
+        <a class="nav-link active" aria-current="page" href="#seccion5">Contacto</a>
       </div>
     </div>
   </div>
@@ -47,15 +50,15 @@
 <div class="row g-0">
             <div class="col-12 col-md-6 col-lg-6">
                 <div>
-<h1>
-  CodeGYM_setup
+<h1 class="fw-bolder">
+  CodeGYM Net
 </h1>
 
                   <p class="text-center">
-                     <h3> Nuestro proyecto consiste en el desarrollo de un sistema integral de gestión para gimnasios, diseñado para optimizar y centralizar las tareas administrativas y operativas de este tipo de establecimientos. </h3> 
+                     <h3> especializada en crear servicios web. </h3> 
                     </p>
                     <p class="text-center">
-                      <h3>La plataforma está orientada a dueños, administradores, recepcionistas y entrenadores de gimnasios, brindándoles una herramienta moderna, intuitiva y fácil de utilizar para gestionar la información de sus clientes y las actividades diarias del negocio. </h3>
+                      <h3> plataforma  orientada a dueños/administradores  brindándoles una herramienta <span class="text-success">moderna</span>, intuitiva y fácil de utilizar para gestionar la información de sus clientes y las actividades diarias del negocio. </h3>
                 </p>
                 </div>
             </div>
@@ -70,16 +73,17 @@
 
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="content s2">
+                  <h1  class="fw-bolder" id="seccion3"> clientes</h1>
                   <div id="carouselExample" class="carousel slide">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="images.jpg" class="d-block mx-auto" style="height:260px;" alt="Lirili Larila">
+      <img src="img/1.png" class="d-block mx-auto" style="height:260px;" alt="">
     </div>
     <div class="carousel-item">
-      <img src="image.jpg" class="d-block mx-auto" style="height: 260px;" alt="Tralalero tralala">
+      <img src="img/2.png" class="d-block mx-auto" style="height: 260px;" alt="">
     </div>
     <div class="carousel-item">
-      <img src="imag.jpg" class="d-block mx-auto" style="height: 260px;" alt="Tung tung sahur">
+      <img src="img/ots.png" class="d-block mx-auto" style="height: 260px;" alt="">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -97,9 +101,15 @@
 
 
             <div class="col-12 col-md-6 col-lg-12">
-                <div class="content s3">sección 3
-                  informacion
+                <div class="content s3">
+                  <p>
+                    <h1  class="fw-bolder" id="seccion2"> ¿Qué es Codegym Net?</h1>
+                    <h2> 
+Somos una consultora de desarrollo de aplicaciones web con sede en Quilmes. Trabajamos con empresas y emprendedores para crear soluciones digitales a medida: desde sitios web institucionales hasta sistemas internos de gestión de stock, ingresos y administración.
 
+Nuestro equipo acompaña cada proyecto en todas sus etapas — presupuesto, diseño, desarrollo y entrega — con comunicación directa y resultados concretos.
+                  </h2>
+                </p>
 
                 </div>
             </div>
@@ -109,78 +119,94 @@
             <div class="col-12 col-md-6 col-lg-12">
                 <div class="content s4">
                   <div class="row g-0">
-                <div class="col-12 col-md-6 col-lg-3 ">
+                    <p> <h1 id="seccion1">servicios</h1></p>
+                <div class="col-12 col-md-6 col-lg-4 ">
                 <div class="content s3">
 <div class="card" style="width: 14rem; display: block; margin: auto;">
-  <img src="messi.jpg" class="card-img-top" alt="...">
+  
   <div class="card-body">
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+    <p class="card-text"> <h3>Desarrollo a medida </h3>
+Construimos lo que necesitás, no una plantilla genérica.   </p>
   </div>
 </div>
                 </div>
             </div>
 
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-4">
                 <div class="content s3">
                     <div class="card" style="width: 14rem; display: block; margin: auto;">
-  <img src="messi.jpg" class="card-img-top" alt="...">
+  
   <div class="card-body">
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+    <p class="card-text"> <h3>Trato personalizado</h3>
+Equipo pequeño, atención directa y comunicación fluida.   </p>
   </div>
 </div>
 
                 </div>
             </div>
 
-                <div class="col-12 col-md-6 col-lg-3 ">
+                <div class="col-12 col-md-6 col-lg-4 ">
                 <div class="content s3">
                     <div class="card" style="width: 14rem; display: block; margin: auto;">
-  <img src="messi.jpg" class="card-img-top" alt="...">
+  
   <div class="card-body">
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+    <p class="card-text" x><h3>Entrega garantizada </h3>
+Flujo claro: presupuesto → diseño → desarrollo → entrega.
+</p>
   </div>
 </div>
 
                 </div>
             </div>
 
-                <div class="col-12 col-md-6 col-lg-3">
-                <div class="content s3">
-                    <div class="card" style="width: 14rem; display: block; margin: auto;">
-  <img src="messi.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-  </div>
-</div>
-
-                </div>
-            </div>
-                </div>
-            </div>
-
+                
 
                 </div>
             </div>
 
-
+ <div class="col-12 col-md-6 col-lg-12">
+                <div class="content s6">
+<div class="row g-0">
             <div class="col-12 col-md-6 col-lg-12">
+                <div>
+<form>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Email</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">consulta</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+</form>
+                </div>
+            </div>
+
+</div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-12 col-md-6 col-lg-12" >
                 <div class="content s5">
 
           <div class="row g-0">
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="content s1">imagen</div>
+                <div class="content s5 text-white"> <img src="img/ots.png" alt="Bootstrap" width="80" height="80"></div>
             </div>
             <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s2">contacto</div>
+                <div class="content s5 text-white">contacto</div>
             </div>
             <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s3">redes sociales</div>
+                <div class="content s5 text-white">redes sociales</div>
             </div>
             <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s4">¿quienes somos?</div>
+                <div class="content s5 text-white">Nosotros</div>
             </div>
             <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s5">datos legales</div>
+                <div class="content s5 text-white">datos legales</div>
             </div>
 
         </div>
