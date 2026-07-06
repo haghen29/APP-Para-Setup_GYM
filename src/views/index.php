@@ -18,14 +18,10 @@
     </style>
 </head>
 <body>
-    <div class="container-sm g-0">
-        <div class="row g-0">
-            <div class="col-12 col-md-6 col-lg-12">
-                <div class="content s1">
-                  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">   
-    <a class="navbar-brand" href="#">
-    <img src="img/ots.png" alt="Bootstrap" width="80" height="80">
+    <a class="navbar-brand" href="/index">
+    <img src="/img/ots.png" alt="Bootstrap" width="80" height="80">
 
   </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,15 +32,13 @@
         <a class="nav-link active" aria-current="page" href="#seccion1">Servicio</a>
         <a class="nav-link active" aria-current="page" href="#seccion2">Nosotros</a>
         <a class="nav-link active" aria-current="page" href="#seccion3">Clientes</a>
-        <a class="nav-link active" aria-current="page" href="#seccion4">Blog</a>
-        <a class="nav-link active" aria-current="page" href="#seccion5">Contacto</a>
       </div>
     </div>
   </div>
 </nav>
-                </div>
-            </div>
 
+    <div class="container-sm g-0">
+        <div class="row g-0">
 <div class="col-12 col-md-6 col-lg-12">
                 <div class="content s6">
 <div class="row g-0">
@@ -166,56 +160,37 @@ Flujo claro: presupuesto → diseño → desarrollo → entrega.
                 </div>
             </div>
 
- <div class="col-12 col-md-6 col-lg-12">
-                <div class="content s6">
-<div class="row g-0">
-            <div class="col-12 col-md-6 col-lg-12">
-                <div>
-<form>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">Email</label>
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">consulta</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-</form>
-                </div>
-            </div>
-
-</div>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-12 col-md-6 col-lg-12" >
-                <div class="content s5">
-
-          <div class="row g-0">
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="content s5 text-white"> <img src="img/ots.png" alt="Bootstrap" width="80" height="80"></div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s5 text-white">contacto</div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s5 text-white">redes sociales</div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s5 text-white">Nosotros</div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-2">
-                <div class="content s5 text-white">datos legales</div>
-            </div>
-
-        </div>
-                </div>
+            
             </div>
         </div>
     </div>
+    <footer class="bg-dark text-white mt-auto py-3">
+    <div class="container-fluid">
+        <div class="row text-center align-items-center">
+
+            <div class="col-lg-3">
+                <img src="/img/ots.png" alt="Logo" width="80">
+            </div>
+
+            <div class="col-lg-3">
+                Contacto
+            </div>
+
+            <div class="col-lg-2">
+                Redes Sociales
+            </div>
+
+            <div class="col-lg-2">
+                Nosotros
+            </div>
+
+            <div class="col-lg-2">
+                Datos legales
+            </div>
+
+        </div>
+    </div>
+</footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
