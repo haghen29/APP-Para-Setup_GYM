@@ -17,10 +17,11 @@ background-size: cover;
 background-repeat: no-repeat;
 height: 100%;
 font-family: 'Numans', sans-serif;
+
 }
 
 .container{
-height: 100%;
+height: 85%;
 align-content: center;
 }
 
@@ -101,8 +102,8 @@ margin-left: 4px;
 <body>
  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">   
-    <a class="navbar-brand" href="#">
-    <img src="img/ots.png" alt="Bootstrap" width="80" height="80">
+    <a class="navbar-brand" href="/index">
+    <img src="/img/ots.png" alt="Bootstrap" width="80" height="80">
 
   </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,5 +166,32 @@ margin-left: 4px;
         </div>
     </div>
 </div>
+<footer class="bg-dark text-white mt-auto py-3">
+    <div class="container-fluid">
+        <div class="row text-center align-items-center">
+
+            <div class="col-lg-3">
+                <img src="/img/ots.png" alt="Logo" width="80">
+            </div>
+
+            <div class="col-lg-3">
+                Contacto
+            </div>
+
+            <div class="col-lg-2">
+                Redes Sociales
+            </div>
+
+            <div class="col-lg-2">
+                Nosotros
+            </div>
+
+            <div class="col-lg-2">
+                Datos legales
+            </div>
+
+        </div>
+    </div>
+</footer>
 </body>
 </html>

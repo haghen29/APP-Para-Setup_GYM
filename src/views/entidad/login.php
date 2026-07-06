@@ -10,7 +10,13 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 <style>
 @import url('https://fonts.googleapis.com/css?family=Numans');
-
+.content {padding: 2em 0.5em; text-align: center;}
+        .s1 {background-color: #dce3e6;}
+        .s2 {background-color: #dce3e6;}
+        .s3 {background-color: #dce3e6;}
+        .s4 {background-color: #dce3e6;}
+        .s5 {background-color: #000000;}
+        .s6 {background-color: #dce3e6;}
 html,body{
 background-image: url('/img/fondologin1.png');
 background-size: cover;
@@ -20,7 +26,7 @@ font-family: 'Numans', sans-serif;
 }
 
 .container{
-height: 100%;
+height: 85%;
 align-content: center;
 }
 
@@ -99,10 +105,10 @@ margin-left: 4px;
 </style>
 </head>
 <body>
- <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">   
-    <a class="navbar-brand" href="#">
-    <img src="img/ots.png" alt="Bootstrap" width="80" height="80">
+    <a class="navbar-brand" href="/index">
+    <img src="/img/ots.png" alt="Bootstrap" width="80" height="80">
 
   </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,8 +119,6 @@ margin-left: 4px;
         <a class="nav-link active" aria-current="page" href="#seccion1">Servicio</a>
         <a class="nav-link active" aria-current="page" href="#seccion2">Nosotros</a>
         <a class="nav-link active" aria-current="page" href="#seccion3">Clientes</a>
-        <a class="nav-link active" aria-current="page" href="#seccion4">Blog</a>
-        <a class="nav-link active" aria-current="page" href="#seccion5">Contacto</a>
       </div>
     </div>
   </div>
@@ -161,6 +165,32 @@ margin-left: 4px;
 		</div>
 	</div>
 </div>
+<footer class="bg-dark text-white mt-auto py-3">
+    <div class="container-fluid">
+        <div class="row text-center align-items-center">
 
+            <div class="col-lg-3">
+                <img src="/img/ots.png" alt="Logo" width="80">
+            </div>
+
+            <div class="col-lg-3">
+                Contacto
+            </div>
+
+            <div class="col-lg-2">
+                Redes Sociales
+            </div>
+
+            <div class="col-lg-2">
+                Nosotros
+            </div>
+
+            <div class="col-lg-2">
+                Datos legales
+            </div>
+
+        </div>
+    </div>
+</footer>
 </body>
 </html>
