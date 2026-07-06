@@ -34,9 +34,7 @@ $app->get("/", function ($request, $response) use ($renderer) {
   return view($renderer, $response, "index.php");
 });
 
-
-
-
+/*
 // tp7
 // ruta productos
 $app->get("/productos", function (
@@ -65,7 +63,6 @@ $app->get("/create/entidades", function (
   return view($renderer, $response, "entidad/store.php");
 });
 
-
 //tp8
 $app->post("/entidad", function (
   Request $request,
@@ -80,8 +77,7 @@ $app->post("/entidad", function (
   ]);
 });
 
-
-// tp9
+//tp9
 $app->get("/entidad", function (
   Request $request,
   Response $response,
@@ -106,8 +102,34 @@ $app->get("/entidad", function (
     "productos" => $productos
   ]);
 });
+*/
 
+//login
+$app->get("/create/login", function (
+  Request $request,
+  Response $response,
+) use ($renderer){
+  return view($renderer, $response, "entidad/login.php");
+});
 
+$app->get("/create/register", function (
+  Request $request,
+  Response $response,
+) use ($renderer){
+  return view($renderer, $response, "entidad/register.php");
+});
+
+$app->post("/auth/login", function (
+  Request $request,
+  Response $response,
+) use ($renderer){
+  $body = $request->getParsedBody();
+
+  return view($renderer, $response, "entidad/createdusuario.php", [
+    "email" => $body["email"] ?? "",
+    "contraseña" => $body["contraseña"] ?? "",
+  ]);
+}); 
 $app->addErrorMiddleware($debug, true, true);
 
 return $app;
