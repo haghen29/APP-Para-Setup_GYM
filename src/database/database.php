@@ -94,3 +94,4 @@ class Database
     return "mysql:host={$this->host};port={$port};dbname={$this->dbName};charset=utf8mb4";
   }
 }
+
