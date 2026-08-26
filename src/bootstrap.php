@@ -60,6 +60,70 @@ $app->post("/auth/login", function (
     "contraseña" => $body["contraseña"] ?? "",
   ]);
 }); 
+
+/*  TPN11
+GET /entidad/ -> Renderiza la vista '/entidad/index.php' con el listado completo de datos.
+GET /entidad/create -> Renderiza la vista '/entidad/create.php' con el formulario para crear un nuevo registro.
+GET /entidad/update/{id} -> Renderiza la vista '/entidad/update.php' con el formulario para editar un registro existente.
+GET /entidad/{id} -> Renderiza la vista '/entidad/show.php' con el detalle de la instancia. Si el id no existe en la base de datos, renderiza '/entidad/not_found.php'.
+POST /entidad -> Recibe los datos del formulario de creación ('create.php') y los guarda en la base de datos.
+PUT /entidad/{id} -> Recibe los datos del formulario de edición ('update.php') y actualiza el registro correspondiente en la base de datos.
+DELETE /entidad/{id} -> Elimina de la base de datos el registro asociado al ID proporcionado.
+*/
+$app->get("/usuarios", function (
+  Request $request, 
+  Response $response) 
+  use ($renderer) {
+   return view($renderer, $response, "usuarios/index.php");
+});
+  
+$app->get("/usuarios/create", function (
+  Request $request, 
+  Response $response) 
+  use ($renderer) {
+ return view($renderer, $response, "usuarios/create.php");
+});
+
+$app->get("/usuarios/update/{id}", function (
+  Request $request, 
+  Response $response) 
+  use ($renderer) {
+ return view($renderer, $response, "usuarios/update.php");
+});
+  
+$app->get("/usuarios/{id}", function (
+  Request $request, 
+  Response $response) 
+  use ($renderer) {
+ return view($renderer, $response, "usuarios/show.php");
+});
+
+$app->post("/usuarios}", function (
+  Request $request, 
+  Response $response) 
+  use ($renderer) {
+  $body = $request->getParsedBody();
+
+  return view($renderer, $response, "usuarios/create.php", [
+    "nombre" => $body["nombre"] ?? "",
+    "apellido" => $body["apellido"] ?? "",
+    "email" => $body["email"] ?? "",
+    "contraseña" => $body["contraseña"] ?? "",
+    "rol" => $body["rol"] ?? null,   //para que se pueda quedar en null tiene que decir "rol" => $body["rol"] ?? null
+  ]);
+}); 
+
+$app->put("/usuarios/{id}", function (
+  Request $request, 
+  Response $response) 
+  use ($renderer) {
+))
+
+$app->delete("/usuarios/{id}", function (
+  Request $request, 
+  Response $response) 
+  use ($renderer) {
+))
 $app->addErrorMiddleware($debug, true, true);
 
 return $app;
