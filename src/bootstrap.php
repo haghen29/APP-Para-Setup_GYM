@@ -113,17 +113,33 @@ $app->post("/usuarios}", function (
   ]);
 }); 
 
+
 $app->put("/usuarios/{id}", function (
-  Request $request, 
-  Response $response) 
-  use ($renderer) {
-))
+    Request $request,
+    Response $response,
+    array $args
+) use ($renderer) {
+    $id = $args["id"];
+    $body = $request->getParsedBody();
+
+    return view($renderer, $response, "usuarios/update.php", [
+        "nombre" => $body["nombre"] ?? "",
+        "apellido" => $body["apellido"] ?? "",
+        "email" => $body["email"] ?? "",
+        "contraseña" => $body["contraseña"] ?? "",
+        "rol" => $body["rol"] ?? null,
+    ]);
+});
 
 $app->delete("/usuarios/{id}", function (
-  Request $request, 
-  Response $response) 
-  use ($renderer) {
-))
+    Request $request,
+    Response $response,
+    array $args
+) use ($renderer) {
+    $id = $args["id"];
+    $body = $request->getParsedBody();
+});
+
 $app->addErrorMiddleware($debug, true, true);
 
 return $app;
