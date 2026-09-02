@@ -117,7 +117,7 @@ $app->get("/usuarios/{id}", function (
  return view($renderer, $response, "usuarios/show.php");
 });
 
-/*
+
 $app->post("/usuarios", function (
   Request $request, 
   Response $response) 
@@ -132,8 +132,8 @@ $app->post("/usuarios", function (
     $contraseña = $body["contraseña"] ?? "";
     $rol = $body["rol"] ?? null;   //para que se pueda quedar en null tiene que decir "rol" => $body["rol"] ?? null
 
-    $query = $pdo->prepare("INSERT INTO `usuario`(`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `rol`, `fecha_registro`) VALUES (?,?,?,?,?,?,curdate());");
-    $query->execute($nombre, $apellido, $email, $contraseña, $rol)  
+    $query = $pdo->prepare("INSERT INTO `usuario`(`nombre`, `apellido`, `email`, `contrasena`, `rol`, `fecha_registro`) VALUES (?,?,?,?,?,curdate());");
+    $query->execute([$nombre, $apellido, $email, $contraseña, $rol]);
   });
 
   return view($renderer, $response, "usuarios/create.php", [
@@ -144,7 +144,7 @@ $app->post("/usuarios", function (
     
   ]);
 }); 
-*/
+
 
 $app->put("/usuarios/{id}", function (
     Request $request,
