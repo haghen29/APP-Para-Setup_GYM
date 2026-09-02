@@ -3,5 +3,5 @@ CREATE TABLE CLIENTE (
     id_usuario   INT NOT NULL,
     empresa      VARCHAR(200),
     telefono     VARCHAR(30),
-    direccion    VARCHAR(300),
+    direccion    VARCHAR(300)
 );

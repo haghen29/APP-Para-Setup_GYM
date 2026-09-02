@@ -7,6 +7,7 @@ use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/database/database.php';
 
 // Cargar variables de entorno desde el .env
 Dotenv::createImmutable(__DIR__ . '/..')->safeLoad();
@@ -28,6 +29,8 @@ $renderer = new PhpRenderer(
   templatePath: __DIR__ . "/views",
   attributes: ["title" => "PDI | Slim Template 2026"],
 );
+
+$database = new Database();
 
 // Ruta/Vista principal
 $app->get("/index", function ($request, $response) use ($renderer) {
@@ -73,8 +76,24 @@ DELETE /entidad/{id} -> Elimina de la base de datos el registro asociado al ID p
 $app->get("/usuarios", function (
   Request $request, 
   Response $response) 
-  use ($renderer) {
-   return view($renderer, $response, "usuarios/index.php");
+  use ($renderer, $database) {
+  /*
+   * 1. Obtener la conexion
+   * 2. Preparar query
+   * 3. Ejecutar
+   * 4. Fetch
+   */
+
+  $pdo = $database->getConnection();
+  
+  $query = $pdo->prepare("SELECT * FROM USUARIO");
+  $query->execute();
+
+  $usuarios = $query->fetchAll();
+
+   return view($renderer, $response, "usuarios/index.php", [
+    "usuarios" => $usuarios
+   ]);
 });
   
 $app->get("/usuarios/create", function (
@@ -98,21 +117,34 @@ $app->get("/usuarios/{id}", function (
  return view($renderer, $response, "usuarios/show.php");
 });
 
-$app->post("/usuarios}", function (
+/*
+$app->post("/usuarios", function (
   Request $request, 
   Response $response) 
-  use ($renderer) {
+  use ($renderer, $database) {
   $body = $request->getParsedBody();
 
+  $database->runTransaction(function ($pdo) use ($body) { // Obtener conexion
+    // ------------------------
+    $nombre = $body["nombre"] ?? "";
+    $apellido = $body["apellido"] ?? "";
+    $email = $body["email"] ?? "";
+    $contraseña = $body["contraseña"] ?? "";
+    $rol = $body["rol"] ?? null;   //para que se pueda quedar en null tiene que decir "rol" => $body["rol"] ?? null
+
+    $query = $pdo->prepare("INSERT INTO `usuario`(`id_usuario`, `nombre`, `apellido`, `email`, `contrasena`, `rol`, `fecha_registro`) VALUES (?,?,?,?,?,?,curdate());");
+    $query->execute($nombre, $apellido, $email, $contraseña, $rol)  
+  });
+
   return view($renderer, $response, "usuarios/create.php", [
-    "nombre" => $body["nombre"] ?? "",
-    "apellido" => $body["apellido"] ?? "",
-    "email" => $body["email"] ?? "",
-    "contraseña" => $body["contraseña"] ?? "",
-    "rol" => $body["rol"] ?? null,   //para que se pueda quedar en null tiene que decir "rol" => $body["rol"] ?? null
+    
+    
+    
+    
+    
   ]);
 }); 
-
+*/
 
 $app->put("/usuarios/{id}", function (
     Request $request,
@@ -135,9 +167,16 @@ $app->delete("/usuarios/{id}", function (
     Request $request,
     Response $response,
     array $args
-) use ($renderer) {
+) use ($renderer, $database) {
     $id = $args["id"];
-    $body = $request->getParsedBody();
+
+
+    $database->runTransaction(function ($pdo) use ($id) {
+      $query = $pdo->prepare("DELETE FROM USUARIO WHERE id = ?");
+      $query->execute($id);
+    });
+
+    
 });
 
 $app->addErrorMiddleware($debug, true, true);
