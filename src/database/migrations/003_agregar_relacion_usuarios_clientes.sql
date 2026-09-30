@@ -1,1 +1,1 @@
-ALTER TABLE CLIENTE ADD CONSTRAINT fk_usuario_cliente FOREIGN KEY (id_usuario   ) REFERENCES USUARIO(id_usuario);
+ALTER TABLE CLIENTE ADD CONSTRAINT fk_usuario_cliente FOREIGN KEY (id_usuario) REFERENCES USUARIO(id_usuario);

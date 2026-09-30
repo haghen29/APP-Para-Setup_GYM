@@ -2,6 +2,7 @@
 
 use Slim\Factory\AppFactory;
 use Slim\Views\PhpRenderer;
+use Slim\Middleware\MethodOverrideMiddleware;
 use Dotenv\Dotenv;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -67,91 +68,76 @@ $app->post("/auth/login", function (
   ]);
 }); 
 
-/*  TPN11
-GET /entidad/ -> Renderiza la vista '/entidad/index.php' con el listado completo de datos.
-GET /entidad/create -> Renderiza la vista '/entidad/create.php' con el formulario para crear un nuevo registro.
-GET /entidad/update/{id} -> Renderiza la vista '/entidad/update.php' con el formulario para editar un registro existente.
-GET /entidad/{id} -> Renderiza la vista '/entidad/show.php' con el detalle de la instancia. Si el id no existe en la base de datos, renderiza '/entidad/not_found.php'.
-POST /entidad -> Recibe los datos del formulario de creación ('create.php') y los guarda en la base de datos.
-PUT /entidad/{id} -> Recibe los datos del formulario de edición ('update.php') y actualiza el registro correspondiente en la base de datos.
-DELETE /entidad/{id} -> Elimina de la base de datos el registro asociado al ID proporcionado.
-*/
-$app->get("/usuarios", function (
-  Request $request, 
-  Response $response) 
-  use ($renderer, $database) {
-  /*
-   * 1. Obtener la conexion
-   * 2. Preparar query
-   * 3. Ejecutar
-   * 4. Fetch
-   */
+/*  TPN11 */
 
+$app->get("/usuarios", function (
+  Request $request,
+  Response $response
+) use ($renderer, $database) {
   $pdo = $database->getConnection();
-  
   $query = $pdo->prepare("SELECT * FROM USUARIO");
   $query->execute();
-
   $usuarios = $query->fetchAll();
 
-   return view($renderer, $response, "usuarios/index.php", [
-    "usuarios" => $usuarios
-   ]);
+  return view($renderer, $response, "usuarios/index.php", [
+    "usuarios" => $usuarios,
+  ]);
 });
-  
+
 $app->get("/usuarios/create", function (
-  Request $request, 
-  Response $response) 
-  use ($renderer) {
- return view($renderer, $response, "usuarios/create.php", [
-  "roles" => ROLES_VALIDOS,
- ]);
+  Request $request,
+  Response $response
+) use ($renderer) {
+  return view($renderer, $response, "usuarios/create.php", [
+    "roles" => ROLES_VALIDOS,
+  ]);
 });
 
 $app->get("/usuarios/update/{id}", function (
-  Request $request, 
+  Request $request,
   Response $response,
   array $args
-  ) use ($renderer) {
-    $pdo = $database->getConnection();
-    $query = $pdo->prepare("SELECT * FROM USUARIO WHERE id = ?");
-    $query->execute([$args["id"]]);
-    $usuario = $query->fetch();
+) use ($renderer, $database) {
+  $pdo = $database->getConnection();
+  $query = $pdo->prepare("SELECT * FROM USUARIO WHERE id_usuario = ?");
+  $query->execute([$args["id"]]);
+  $usuario = $query->fetch();
 
-    if (!$usuario) {
+  if (!$usuario) {
     return view($renderer, $response->withStatus(404), "usuarios/not_found.php");
   }
 
- return view($renderer, $response, "usuarios/update.php", [
-    "usuario" => $usuario
-   ]);
+  return view($renderer, $response, "usuarios/update.php", [
+    "usuario" => $usuario,
+    "roles" => ROLES_VALIDOS,
+  ]);
 });
-  
+
 $app->get("/usuarios/{id}", function (
-  Request $request, 
+  Request $request,
   Response $response,
   array $args
-  ) use ($renderer, $database) {
-    $pdo = $database->getConnection();
-    $query = $pdo->prepare("SELECT * FROM USUARIO WHERE id = ?");
-    $query->execute([$args["id"]]);
-    $usuario = $query->fetch();
-    if (!$usuario) {
+) use ($renderer, $database) {
+  $pdo = $database->getConnection();
+  $query = $pdo->prepare("SELECT * FROM USUARIO WHERE id_usuario = ?");
+  $query->execute([$args["id"]]);
+  $usuario = $query->fetch();
+
+  if (!$usuario) {
     return view($renderer, $response->withStatus(404), "usuarios/not_found.php");
   }
- return view($renderer, $response, "usuarios/show.php", [
-    "usuario" => $usuario
-   ]);
+
+  return view($renderer, $response, "usuarios/show.php", [
+    "usuario" => $usuario,
+  ]);
 });
 
-
-// POST /usuarios -> guarda un usuario nuevo (con transacción)
 $app->post("/usuarios", function (
   Request $request,
   Response $response
 ) use ($renderer, $database) {
   $body = $request->getParsedBody();
- 
+
   $nombre = trim($body["nombre"] ?? "");
   $apellido = trim($body["apellido"] ?? "");
   $email = trim($body["email"] ?? "");
@@ -160,7 +146,7 @@ $app->post("/usuarios", function (
   if (!in_array($rol, ROLES_VALIDOS, true)) {
     $rol = "cliente";
   }
- 
+
   // Validación básica: si falta algo, volvemos al formulario
   if ($nombre === "" || $apellido === "" || $email === "" || $contrasena === "") {
     return view($renderer, $response->withStatus(422), "usuarios/create.php", [
@@ -169,7 +155,7 @@ $app->post("/usuarios", function (
       "old" => $body,
     ]);
   }
- 
+
   try {
     $database->runTransaction(function ($pdo) use ($nombre, $apellido, $email, $contrasena, $rol) {
       $query = $pdo->prepare(
@@ -185,8 +171,9 @@ $app->post("/usuarios", function (
       ]);
     });
   } catch (PDOException $e) {
-    // 23000 = violación de restricción (email UNIQUE repetido)
-    if ($e->getCode() === "23000") {
+    // 1062 = entrada duplicada en MySQL (email UNIQUE repetido).
+    // Otros errores 23000 (ej. una clave foránea) NO son un email repetido: se relanzan.
+    if (($e->errorInfo[1] ?? null) === 1062) {
       return view($renderer, $response->withStatus(409), "usuarios/create.php", [
         "roles" => ROLES_VALIDOS,
         "error" => "Ya existe un usuario con ese email.",
@@ -195,7 +182,7 @@ $app->post("/usuarios", function (
     }
     throw $e;
   }
- 
+
   // 303: el navegador sigue con GET al listado
   return $response->withHeader("Location", "/usuarios")->withStatus(303);
 });
@@ -208,7 +195,7 @@ $app->put("/usuarios/{id}", function (
 ) use ($renderer, $database) {
   $id = $args["id"];
   $body = $request->getParsedBody();
- 
+
   $nombre = trim($body["nombre"] ?? "");
   $apellido = trim($body["apellido"] ?? "");
   $email = trim($body["email"] ?? "");
@@ -217,7 +204,7 @@ $app->put("/usuarios/{id}", function (
   if (!in_array($rol, ROLES_VALIDOS, true)) {
     $rol = "cliente";
   }
- 
+
   // Para volver a mostrar el formulario con lo ingresado si hay error
   $usuarioForm = [
     "id_usuario" => $id,
@@ -226,7 +213,7 @@ $app->put("/usuarios/{id}", function (
     "email" => $email,
     "rol" => $rol,
   ];
- 
+
   if ($nombre === "" || $apellido === "" || $email === "") {
     return view($renderer, $response->withStatus(422), "usuarios/update.php", [
       "usuario" => $usuarioForm,
@@ -234,7 +221,7 @@ $app->put("/usuarios/{id}", function (
       "error" => "Nombre, apellido y email son obligatorios.",
     ]);
   }
- 
+
   try {
     $database->runTransaction(function ($pdo) use ($id, $nombre, $apellido, $email, $contrasena, $rol) {
       if ($contrasena !== "") {
@@ -256,7 +243,7 @@ $app->put("/usuarios/{id}", function (
       }
     });
   } catch (PDOException $e) {
-    if ($e->getCode() === "23000") {
+    if (($e->errorInfo[1] ?? null) === 1062) {
       return view($renderer, $response->withStatus(409), "usuarios/update.php", [
         "usuario" => $usuarioForm,
         "roles" => ROLES_VALIDOS,
@@ -265,7 +252,7 @@ $app->put("/usuarios/{id}", function (
     }
     throw $e;
   }
- 
+
   return $response->withHeader("Location", "/usuarios/" . $id)->withStatus(303);
 });
 
@@ -276,21 +263,26 @@ $app->delete("/usuarios/{id}", function (
   array $args
 ) use ($database) {
   $id = $args["id"];
- 
+
   $database->runTransaction(function ($pdo) use ($id) {
     // Primero la fila hija (CLIENTE tiene FK a USUARIO), después el usuario.
     // Si algo falla, se revierte todo.
     $query = $pdo->prepare("DELETE FROM CLIENTE WHERE id_usuario = ?");
     $query->execute([$id]);
- 
+
     $query = $pdo->prepare("DELETE FROM USUARIO WHERE id_usuario = ?");
     $query->execute([$id]);
   });
- 
+
   return $response->withHeader("Location", "/usuarios")->withStatus(303);
 });
 
-$app->addErrorMiddleware($debug, true, true);
+/*
+ * Los <form> de HTML solo mandan GET y POST. Para que PUT y DELETE
+ * funcionen, los formularios llevan un campo oculto _METHOD y este
+ * middleware lo interpreta. Orden: routing, method override, errores.
+ */
+$app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $app->add(new MethodOverrideMiddleware());
 $app->addErrorMiddleware($debug, true, true);
