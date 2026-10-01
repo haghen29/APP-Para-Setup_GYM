@@ -54,7 +54,7 @@
                     <p class="text-center">
                       <h3> plataforma  orientada a dueños/administradores  brindándoles una herramienta <span class="text-success">moderna</span>, intuitiva y fácil de utilizar para gestionar la información de sus clientes y las actividades diarias del negocio. </h3>
                 </p>
-                <a href="/create/login" class="btn btn-secondary btn-lg">
+                <a href="/auth/login" class="btn btn-secondary btn-lg">
     Pedir servicio
 </a>
                 </div>

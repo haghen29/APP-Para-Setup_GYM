@@ -31,7 +31,7 @@ align-content: center;
 }
 
 .card{
-height: 370px;
+min-height: 370px;
 margin-top: auto;
 margin-bottom: auto;
 width: 400px;
@@ -129,37 +129,36 @@ margin-left: 4px;
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Inicio de sección</h3>
+				<h3>Inicio de sesión</h3>
 			</div>
 			<div class="card-body">
-				<form>
-					<div class="input-group form-group">
+				                <?php if (!empty($error)): ?>
+                    <div class="alert alert-danger py-2"><?= html($error) ?></div>
+                <?php endif; ?>
+                <?php if (!empty($registrado)): ?>
+                    <div class="alert alert-success py-2">Cuenta creada. Ya podés iniciar sesión.</div>
+                <?php endif; ?>
+                <form action="/auth/login" method="POST">
+                    <div class="input-group form-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fas fa-envelope"></i>
-                            </span>
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                         </div>
-                        <input type="email" name="correo" class="form-control" placeholder="Correo electrónico">
+                        <input type="email" name="email" class="form-control" placeholder="Correo electrónico" value="<?= html($old["email"] ?? "") ?>" required>
                     </div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text">
-								<i class="fas fa-key"></i>
-						</span>
-						</div>
-						<input type="password" class="form-control" placeholder="Contraeña">
-					</div>
-					<div class="row align-items-center remember">
-						<input type="checkbox">Recordar
-					</div>
-					<div class="form-group">
-						<input type="submit" value="Acceder" class="btn float-right login_btn">
-					</div>
-				</form>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="contrasena" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Acceder" class="btn float-right login_btn">
+                    </div>
+                </form>
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
-					¿Aun no tienes una cuenta?<a href="/create/register">Crear cuenta</a>
+					¿Aun no tienes una cuenta?<a href="/auth/register">Crear cuenta</a>
 				</div>
 			</div>
 		</div>

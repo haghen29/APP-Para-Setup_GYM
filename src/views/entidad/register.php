@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Page</title>
+	<title>Registro</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="styles.css">
@@ -26,7 +26,7 @@ align-content: center;
 }
 
 .card{
-height: 370px;
+min-height: 370px;
 margin-top: auto;
 margin-bottom: auto;
 width: 400px;
@@ -130,37 +130,50 @@ margin-left: 4px;
             </div>
 
             <div class="card-body">
-                <form action="/entidad" method="POST">
+                                <?php if (!empty($error)): ?>
+                    <div class="alert alert-danger py-2"><?= html($error) ?></div>
+                <?php endif; ?>
+                <form action="/auth/register" method="POST">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fas fa-envelope"></i>
-                            </span>
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="email" name="correo" class="form-control" placeholder="Correo electrónico">
+                        <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="<?= html($old["nombre"] ?? "") ?>" required>
                     </div>
-
-            
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fas fa-key"></i>
-                            </span>
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="password" name="password" class="form-control" placeholder="Contraseña">
+                        <input type="text" name="apellido" class="form-control" placeholder="Apellido" value="<?= html($old["apellido"] ?? "") ?>" required>
                     </div>
-
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input type="email" name="email" class="form-control" placeholder="Correo electrónico" value="<?= html($old["email"] ?? "") ?>" required>
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="contrasena" class="form-control" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6">
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="confirmar" class="form-control" placeholder="Repetir contraseña" required>
+                    </div>
                     <div class="form-group">
-						<input type="submit" value="Crear" class="btn float-right login_btn">
-					</div>
-
+                        <input type="submit" value="Crear" class="btn float-right login_btn">
+                    </div>
                 </form>
             </div>
 
             <div class="card-footer">
                 <div class="d-flex justify-content-center links">
                     ¿Ya tienes una cuenta?
-                    <a href="/create/login">Iniciar sesión</a>
+                    <a href="/auth/login">Iniciar sesión</a>
                 </div>
             </div>
         </div>
