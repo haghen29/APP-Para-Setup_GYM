@@ -12,6 +12,5 @@
     <dd class="col-sm-8"><?= html($usuario["fecha_registro"]) ?></dd>
   </dl>
 
-  <a href="/usuarios/update/<?= html((string) $usuario["id_usuario"]) ?>" class="btn btn-primary">Editar</a>
-  <a href="/usuarios" class="btn btn-link">Volver al listado</a>
+  <a href="/admin/usuarios" class="btn btn-link">Volver a usuarios</a>
 </main>

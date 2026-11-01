@@ -35,6 +35,16 @@ Colocá tus archivos `.sql` en `src/database/migrations/` y ejecuta:
 composer migrate
 ```
 
+## Primer administrador
+
+El registro público siempre crea usuarios con rol `cliente`. Para tener un admin (acceso a `/admin`), registrate desde `/auth/register` y después, en MySQL:
+
+```sql
+UPDATE USUARIO SET rol = 'admin' WHERE email = 'tu@email.com';
+```
+
+Cerrá sesión y volvé a entrar para que el cambio de rol tome efecto.
+
 ## Licencia
 
 Este proyecto está licenciado bajo la [Licencia MIT](./LICENSE).

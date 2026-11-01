@@ -24,7 +24,7 @@ No hay suite de tests, linter, typechecker ni CI. Verificá los cambios ejecutan
 - El middleware de errores (`$app->addErrorMiddleware(...)`) está registrado al **final** de `bootstrap.php`, así que cualquier ruta/middleware nuevo debe agregarse antes de esa última línea.
 - Acceso a BD mediante la clase `Database` (`src/database/database.php`): `getConnection()` para lecturas, `runTransaction(Closure)` para escrituras. Nunca llames a `runTransaction` dentro de otra (las transacciones anidadas lanzan excepción).
 - Las vistas son PHP plano bajo `src/views/`, renderizadas con el helper global `view($renderer, $response, $template, $data, $layout)` (`src/utils/view.php`), que envuelve cada plantilla en `layouts/base.php`. Escapá la salida con `html(...)` (`src/utils/html.php`). Ambos helpers se autoloadan vía `autoload.files` de `composer.json`.
-- Convención ruta → vista (ver el bloque de comentarios TPN11 en `bootstrap.php`): `GET /usuarios`, `/usuarios/create`, `/usuarios/update/{id}`, `/usuarios/{id}`, más handlers POST/PUT/DELETE.
+- Convención ruta → vista (ver el bloque de comentarios TPN11 en `bootstrap.php`): `GET /admin/usuarios`, `/admin/usuarios/create`, `/admin/usuarios/update/{id}`, `/admin/usuarios/{id}`, más handlers POST/PUT/DELETE (el CRUD de usuarios vive dentro del panel admin; `/usuarios` solo redirige).
 
 ## Migraciones
 
@@ -35,4 +35,11 @@ No hay suite de tests, linter, typechecker ni CI. Verificá los cambios ejecutan
 ## Estilo
 
 - Indentación de 2 espacios en PHP, finales de línea LF, UTF-8 (ver `.editorconfig`). Identificadores/comentarios en español en código de cara al usuario y en esquema.
-- Aún no hay auth en backend: `/auth/login` y `/create/register` son vistas estáticas; no asumas que existe lógica de login/sesión.
+## Autenticación y roles
+
+- Hay login/registro con sesión PHP (`$_SESSION["user_id"|"user_nombre"|"user_rol"]`). El registro público siempre crea `cliente`.
+- `authMiddleware` exige sesión; si falta, guarda la ruta GET pedida en `$_SESSION["volver_a"]` y el login devuelve ahí al usuario (así "Pedir servicio" pasa por el login y vuelve al formulario).
+- `adminMiddleware` exige rol `admin` (403 si no). Registrarlo **antes** que `authMiddleware` en el `->add(...)` para que auth corra primero: `->add("adminMiddleware")->add("authMiddleware")`.
+- Rutas: `/pedir-servicio` (auth), `/admin`, `/admin/formularios`, `/admin/formularios/{id}`, `/admin/usuarios` y su CRUD (admin). Tabla `SOLICITUD_SERVICIO` en la migración `004`.
+- El primer admin no se crea desde la web: registrarse y luego `UPDATE USUARIO SET rol = 'admin' WHERE email = '...';`.
+- La navbar compartida está en `src/views/partials/navbar.php`.

@@ -6,7 +6,7 @@
     <div class="alert alert-danger"><?= html($error) ?></div>
   <?php endif; ?>
 
-  <form action="/usuarios" method="POST">
+  <form action="/admin/usuarios" method="POST">
     <div class="mb-3">
       <label for="nombre" class="form-label">Nombre</label>
       <input type="text" class="form-control" id="nombre" name="nombre" value="<?= html($old["nombre"] ?? "") ?>" required>
@@ -32,6 +32,6 @@
       </select>
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="/usuarios" class="btn btn-link">Cancelar</a>
+    <a href="/admin/usuarios" class="btn btn-link">Cancelar</a>
   </form>
 </main>

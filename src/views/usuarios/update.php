@@ -5,7 +5,7 @@
     <div class="alert alert-danger"><?= html($error) ?></div>
   <?php endif; ?>
 
-  <form action="/usuarios/<?= html((string) $usuario["id_usuario"]) ?>" method="POST">
+  <form action="/admin/usuarios/<?= html((string) $usuario["id_usuario"]) ?>" method="POST">
     <input type="hidden" name="_METHOD" value="PUT">
 
     <div class="mb-3">
@@ -33,6 +33,6 @@
       </select>
     </div>
     <button type="submit" class="btn btn-primary">Actualizar</button>
-    <a href="/usuarios" class="btn btn-link">Cancelar</a>
+    <a href="/admin/usuarios" class="btn btn-link">Cancelar</a>
   </form>
 </main>

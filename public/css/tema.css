@@ -1,0 +1,655 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* =====================================================================
+   Tema CodeGYM Net
+   Solo estilos: no cambia el HTML ni la estructura de las páginas.
+   Se carga una vez desde layouts/base.php, después de Bootstrap 5.
+
+   Índice
+   1. Variables y base
+   2. Botones
+   3. Navbar
+   4. Landing (index)
+   5. Footer
+   6. Login y registro (clase "pagina-auth")
+   7. Panel admin, tablas, formularios y alertas
+   ===================================================================== */
+
+
+/* ---------- 1. Variables y base ---------- */
+:root {
+  --cg-navy: #0b1220;
+  --cg-navy-2: #111c36;
+  --cg-ink: #0f172a;
+  --cg-text: #334155;
+  --cg-muted: #5a687c;
+
+  /* Superficies en azul grisáceo, a juego con la navbar azul marino y su acento cian. */
+  --cg-colort: #f8faff;   /* tarjetas, tablas, formularios, hoja central */
+  --cg-coloralt: #eaf1fb; /* secciones alternadas, rayas de tabla, hover */
+  --cg-pagina: #e5edf8;   /* fondo detrás de la hoja central */
+  --cg-line: #d3deed;     /* bordes y divisores */
+  --cg-surface: var(--cg-colort);
+  --cg-bg: var(--cg-pagina);
+  --cg-primary: #2563eb;
+  --cg-primary-dark: #1d4ed8;
+  --cg-accent: #06b6d4;
+  --cg-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  --cg-shadow: 0 10px 30px -14px rgba(15, 23, 42, .28);
+  --cg-shadow-lg: 0 24px 48px -18px rgba(15, 23, 42, .38);
+
+  /* Variables de Bootstrap 5.3 */
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --bs-body-color: var(--cg-text);
+  --bs-body-bg: var(--cg-colort);
+  --bs-heading-color: var(--cg-ink);
+  --bs-primary: #2563eb;
+  --bs-primary-rgb: 37, 99, 235;
+  --bs-link-color: #2563eb;
+  --bs-link-color-rgb: 37, 99, 235;
+  --bs-link-hover-color: #1d4ed8;
+  --bs-link-hover-color-rgb: 29, 78, 216;
+  --bs-border-radius: .65rem;
+  --bs-border-radius-lg: 1rem;
+  --bs-border-color: var(--cg-line);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--cg-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Footer siempre abajo, también en páginas cortas (menos login/registro) */
+body:not(.pagina-auth) {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+::selection { background: #bfdbfe; color: var(--cg-ink); }
+
+h1, h2, h3, h4, h5, h6 { letter-spacing: -.015em; }
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+/* ---------- 2. Botones ---------- */
+.btn {
+  border-radius: .65rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, color .18s ease;
+}
+
+.btn:hover { text-decoration: none; }
+
+.btn-primary {
+  --bs-btn-bg: #2563eb;
+  --bs-btn-border-color: #2563eb;
+  --bs-btn-hover-bg: #1d4ed8;
+  --bs-btn-hover-border-color: #1d4ed8;
+  --bs-btn-active-bg: #1e40af;
+  --bs-btn-active-border-color: #1e40af;
+  --bs-btn-focus-shadow-rgb: 37, 99, 235;
+  box-shadow: 0 8px 18px -10px rgba(37, 99, 235, .8);
+}
+.btn-primary:hover { transform: translateY(-1px); }
+
+.btn-outline-primary {
+  --bs-btn-color: #2563eb;
+  --bs-btn-border-color: #bfd3fb;
+  --bs-btn-hover-bg: #2563eb;
+  --bs-btn-hover-border-color: #2563eb;
+  --bs-btn-active-bg: #1d4ed8;
+  --bs-btn-active-border-color: #1d4ed8;
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: #475569;
+  --bs-btn-border-color: #d9a3a3;
+  --bs-btn-hover-bg: #0f172a;
+  --bs-btn-hover-border-color: #0f172a;
+  --bs-btn-active-bg: #0f172a;
+  --bs-btn-active-border-color: #0f172a;
+}
+
+.btn-outline-danger {
+  --bs-btn-border-color: #f6c1c1;
+}
+
+.btn-link {
+  --bs-btn-color: #2563eb;
+  --bs-btn-hover-color: #1d4ed8;
+  font-weight: 500;
+  text-decoration: none;
+}
+.btn-link:hover { text-decoration: underline; }
+
+
+/* ---------- 3. Navbar ---------- */
+.navbar.bg-body-tertiary {
+  background: linear-gradient(90deg, var(--cg-navy) 0%, var(--cg-navy-2) 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  box-shadow: 0 6px 24px -10px rgba(2, 6, 23, .55);
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.navbar-brand img {
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 8px 22px rgba(6, 182, 212, .22);
+  transition: transform .25s ease;
+}
+.navbar-brand:hover img { transform: scale(1.05) rotate(-2deg); }
+
+.navbar .navbar-nav .nav-link,
+.navbar .navbar-nav .nav-link.active {
+  position: relative;
+  color: #cbd5e1;
+  font-weight: 500;
+  padding: .55rem .95rem;
+  border-radius: .55rem;
+  transition: color .2s ease, background-color .2s ease;
+}
+
+.navbar .navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: .95rem;
+  right: .95rem;
+  bottom: .25rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--cg-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link.active:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .07);
+  text-decoration: none;
+}
+.navbar .navbar-nav .nav-link:hover::after { transform: scaleX(1); }
+
+.navbar-text {
+  color: #e2e8f0;
+  font-weight: 500;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.navbar .btn-outline-light {
+  --bs-btn-border-color: rgba(255, 255, 255, .35);
+  --bs-btn-hover-color: var(--cg-navy);
+}
+
+.navbar .btn-secondary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: rgba(255, 255, 255, .12);
+  --bs-btn-border-color: rgba(255, 255, 255, .18);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgba(255, 255, 255, .24);
+  --bs-btn-hover-border-color: rgba(255, 255, 255, .3);
+  --bs-btn-active-bg: rgba(255, 255, 255, .3);
+  --bs-btn-active-border-color: rgba(255, 255, 255, .3);
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, .25);
+}
+.navbar-toggler:focus { box-shadow: 0 0 0 .2rem rgba(6, 182, 212, .35); }
+
+
+/* ---------- 4. Landing (index) ---------- */
+
+/* La página es una columna central: se ve como una "hoja" sobre el fondo gris */
+main > .container-sm {
+  background: var(--cg-surface);
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, .04), 0 30px 70px -30px rgba(15, 23, 42, .35);
+  overflow: hidden;
+}
+
+.content {
+  padding: 3.5rem 1rem;
+  text-align: center;
+}
+
+/* Fondos de cada sección (se alternan para dar ritmo) */
+.s1, .s2 { background-color: var(--cg-coloralt); }
+.s3 { background-color: var(--cg-colort); }
+.s4 { background-color: var(--cg-coloralt); }
+.s5 { background-color: #0b1220; }
+.s6 {
+  background:
+    radial-gradient(900px 380px at 90% -10%, rgba(37, 99, 235, .12), transparent 60%),
+    radial-gradient(700px 300px at -5% 110%, rgba(6, 182, 212, .10), transparent 60%),
+    linear-gradient(180deg, var(--cg-colort) 0%, var(--cg-coloralt) 100%);
+  padding: 4.5rem 1.25rem;
+}
+
+/* Las tarjetas de servicios viven dentro de .s4: sin fondo ni relleno propios */
+.s4 .content {
+  background-color: transparent;
+  padding: 1rem .5rem;
+}
+
+/* Títulos de sección con una línea de color debajo */
+.content h1 {
+  font-weight: 800 !important;
+  font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+  color: var(--cg-ink);
+  margin-bottom: 1.25rem;
+}
+.content h1::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin: .7rem auto 0;
+  border-radius: 4px;
+  background: var(--cg-gradient);
+}
+
+/* Hero */
+.s6 h1 {
+  font-size: clamp(2.3rem, 6vw, 3.5rem);
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  color: var(--cg-primary); /* respaldo si el navegador no soporta el degradé en texto */
+  background: linear-gradient(90deg, #0f172a 0%, #2563eb 65%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.s6 h1::after { display: none; }
+
+.s6 h3 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--cg-muted);
+  max-width: 34rem;
+  margin: 1rem auto;
+}
+.s6 h3:first-of-type {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--cg-ink);
+}
+
+.s6 .text-success {
+  color: var(--cg-primary) !important;
+  font-weight: 700;
+}
+
+.s6 .btn-secondary.btn-lg {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+  margin-top: .75rem;
+  padding: .9rem 2.4rem;
+  font-size: 1.05rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--cg-gradient);
+  box-shadow: 0 14px 28px -10px rgba(37, 99, 235, .65);
+}
+.s6 .btn-secondary.btn-lg:hover {
+  background: var(--cg-gradient);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 34px -12px rgba(37, 99, 235, .75);
+}
+
+.s6 img.img-fluid {
+  border-radius: 1.5rem;
+  box-shadow: var(--cg-shadow-lg);
+  margin-top: 1.5rem;
+}
+
+/* "¿Qué es Codegym Net?" (el texto está en un h2) */
+.s3 h2 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.9;
+  color: var(--cg-muted);
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+/* Carrusel de clientes */
+.carousel {
+  max-width: 640px;
+  margin: 1.75rem auto 0;
+  padding: 1.75rem 0;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #0b1220 0%, #16233f 100%);
+  box-shadow: var(--cg-shadow-lg);
+  overflow: hidden;
+}
+.carousel-inner img {
+  max-width: 92%;
+  object-fit: contain;
+  border-radius: .9rem;
+}
+.carousel-control-prev,
+.carousel-control-next { width: 12%; opacity: .75; }
+.carousel-control-prev:hover,
+.carousel-control-next:hover { opacity: 1; }
+
+.s2 h1{
+  background: linear-gradient(90deg, #0f172a 0%, #2563eb 65%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.s3 h1{
+  background: linear-gradient(90deg, #0f172a 0%, #2563eb 65%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Tarjetas de servicios */
+.s4 .card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--cg-line);
+  border-radius: 1.25rem;
+  background: var(--cg-surface);
+  box-shadow: var(--cg-shadow);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.s4 .card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--cg-gradient);
+}
+.s4 .card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--cg-shadow-lg);
+}
+.s4 .card-body {
+  padding: 1.75rem 1.25rem 1.5rem;
+  font-size: .95rem;
+  line-height: 1.6;
+  color: var(--cg-muted);
+}
+.s4 .card-body p { margin: 0; }
+.s4 .card-body h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cg-ink);
+  margin-bottom: .6rem;
+}
+
+.s4 h1{
+  background: linear-gradient(90deg, #0f172a 0%, #2563eb 65%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- 5. Footer ---------- */
+footer.bg-dark {
+  background: linear-gradient(180deg, #0b1220 0%, #070d1a 100%) !important;
+  padding-top: 1.75rem !important;
+  padding-bottom: 1.75rem !important;
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(90deg, #2563eb, #06b6d4, #2563eb) 1;
+  font-size: .92rem;
+}
+footer.bg-dark.text-white { color: #94a3b8 !important; }
+footer.bg-dark img {
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .1);
+}
+footer.bg-dark .row > div { padding-top: .35rem; padding-bottom: .35rem; }
+
+
+/* ---------- 6. Login y registro ----------
+   base.php agrega la clase "pagina-auth" a <html> y <body> cuando la ruta pasa
+   "bodyClass" => "pagina-auth". */
+html.pagina-auth,
+body.pagina-auth {
+  background-image:
+    linear-gradient(rgba(5, 10, 25, .55), rgba(5, 10, 25, .55)),
+    url('/img/fondologin1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+.pagina-auth .container {
+  height: 85%;
+  align-content: center;
+}
+
+.pagina-auth .card {
+  min-height: 370px;
+  width: 400px;
+  max-width: 92vw;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: rgba(15, 23, 42, .62) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 1.5rem;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .65);
+  color: #e2e8f0;
+}
+
+.pagina-auth .card-header,
+.pagina-auth .card-footer {
+  background: transparent;
+  border-color: rgba(255, 255, 255, .1);
+  padding: 1.1rem 1.5rem;
+}
+.pagina-auth .card-body { padding: 1.5rem; }
+.pagina-auth .card-header h3 {
+  margin: 0;
+  color: #fff;
+  font-weight: 700;
+}
+
+.pagina-auth .input-group-text {
+  width: 50px;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, .14);
+  color: #e2e8f0;
+  border: 0 !important;
+  border-radius: .75rem 0 0 .75rem;
+}
+.pagina-auth .input-group .form-control {
+  border: 0;
+  border-radius: 0 .75rem .75rem 0;
+  padding: .75rem .95rem;
+  background-color: rgba(255, 250, 240, .96);
+  color: var(--cg-ink);
+}
+.pagina-auth input:focus {
+  outline: 0;
+  box-shadow: 0 0 0 .22rem rgba(6, 182, 212, .35) !important;
+}
+
+.pagina-auth .login_btn {
+  width: 110px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--cg-gradient);
+  box-shadow: 0 12px 24px -10px rgba(6, 182, 212, .7);
+}
+.pagina-auth .login_btn:hover {
+  color: #fff;
+  background: var(--cg-gradient);
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+}
+
+.pagina-auth .links { color: #cbd5e1; }
+.pagina-auth .links a {
+  margin-left: 4px;
+  color: #67e8f9;
+  font-weight: 600;
+}
+.pagina-auth .links a:hover { color: #fff; }
+
+
+/* ---------- 7. Panel admin, tablas, formularios y alertas ---------- */
+
+/* Títulos de las páginas internas */
+main.container h1 {
+  font-weight: 800;
+  color: var(--cg-ink);
+}
+main.container h1.h3 { font-size: 1.75rem; }
+
+/* Menú del panel (Resumen / Formularios / Usuarios) */
+.nav-pills {
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: .35rem;
+  padding: .4rem;
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-line);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px -4px rgba(15, 23, 42, .15);
+}
+.nav-pills .nav-link {
+  padding: .5rem 1.05rem;
+  border-radius: .7rem;
+  color: var(--cg-muted);
+  font-weight: 600;
+}
+.nav-pills .nav-link:hover {
+  color: var(--cg-ink);
+  background: var(--cg-coloralt);
+  text-decoration: none;
+}
+.nav-pills .nav-link.active {
+  color: #fff;
+  background: var(--cg-gradient);
+  box-shadow: 0 8px 16px -8px rgba(37, 99, 235, .8);
+}
+
+/* Tarjetas */
+.card {
+  border: 1px solid var(--cg-line);
+  border-radius: 1.1rem;
+  box-shadow: var(--cg-shadow);
+}
+.card-body { padding: 1.4rem; }
+.card .display-6 {
+  font-weight: 800;
+  color: var(--cg-primary);
+}
+
+/* Tablas */
+.table-responsive {
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-line);
+  border-radius: 1rem;
+  box-shadow: var(--cg-shadow);
+}
+.table {
+  --bs-table-striped-bg: var(--cg-coloralt);
+  --bs-table-hover-bg: #dbeafe;
+  --bs-table-border-color: var(--cg-line);
+  margin-bottom: 0;
+}
+.table > :not(caption) > * > * { padding: .85rem 1rem; }
+.table thead th {
+  --bs-table-bg: #0f172a;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  border-bottom: 0;
+  white-space: nowrap;
+}
+.table-striped > tbody > tr:hover > * {
+  --bs-table-bg-state: #dbeafe;
+}
+
+.badge {
+  padding: .45em .8em;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+/* Formularios */
+.form-label {
+  font-weight: 600;
+  font-size: .9rem;
+  color: #334155;
+}
+.form-control,
+.form-select {
+  padding: .65rem .9rem;
+  border-color: #e0aeae;
+  border-radius: .7rem;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 .22rem rgba(37, 99, 235, .16);
+}
+
+/* Páginas con formulario o detalle (tienen un max-width inline): se ven como una tarjeta */
+main.container[style*="max-width"] {
+  margin-top: 2.25rem;
+  margin-bottom: 2.25rem;
+  padding: 2rem !important;
+  background: var(--cg-surface);
+  border: 1px solid var(--cg-line);
+  border-radius: 1.25rem;
+  box-shadow: var(--cg-shadow);
+}
+
+/* Detalle (usuarios/show, admin/formulario) */
+dl.row dt {
+  color: var(--cg-muted);
+  font-weight: 600;
+}
+dl.row dt,
+dl.row dd { min-height: 1.5rem; }
+dl.row dd { color: var(--cg-ink); }
+
+/* Avisos */
+.alert {
+  border: 0;
+  border-left: 4px solid transparent;
+  border-radius: .85rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .06);
+}
+.alert-success { border-left-color: #16a34a; }
+.alert-danger  { border-left-color: #dc2626; }
+.alert-info    { border-left-color: #0ea5e9; }
+.alert-warning { border-left-color: #f59e0b; }
+
+/* Página 403 / no encontrado */
+main.container.text-center h1 { font-weight: 800; }
+main.container.text-center .text-muted { font-size: 1.05rem; }
+
+/* Móvil */
+@media (max-width: 575.98px) {
+  .s6 { padding: 3rem 1rem; }
+  .content { padding: 2.5rem .75rem; }
+  main.container[style*="max-width"] { padding: 1.25rem !important; }
+}

@@ -1,42 +1,4 @@
 <main>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layout N</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <style>
-        .content {padding: 2em 0.5em; text-align: center;}
-        .s1 {background-color: #dce3e6;}
-        .s2 {background-color: #dce3e6;}
-        .s3 {background-color: #dce3e6;}
-        .s4 {background-color: #dce3e6;}
-        .s5 {background-color: #000000;}
-        .s6 {background-color: #dce3e6;}
-    </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-  <div class="container-fluid">   
-    <a class="navbar-brand" href="/index">
-    <img src="/img/ots.png" alt="Bootstrap" width="80" height="80">
-
-  </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#seccion1">Servicio</a>
-        <a class="nav-link active" aria-current="page" href="#seccion2">Nosotros</a>
-        <a class="nav-link active" aria-current="page" href="#seccion3">Clientes</a>
-      </div>
-    </div>
-  </div>
-</nav>
-
     <div class="container-sm g-0">
         <div class="row g-0">
 <div class="col-12 col-md-6 col-lg-12">
@@ -54,7 +16,7 @@
                     <p class="text-center">
                       <h3> plataforma  orientada a dueños/administradores  brindándoles una herramienta <span class="text-success">moderna</span>, intuitiva y fácil de utilizar para gestionar la información de sus clientes y las actividades diarias del negocio. </h3>
                 </p>
-                <a href="/auth/login" class="btn btn-secondary btn-lg">
+                <a href="/pedir-servicio" class="btn btn-secondary btn-lg">
     Pedir servicio
 </a>
                 </div>
@@ -164,34 +126,4 @@ Flujo claro: presupuesto → diseño → desarrollo → entrega.
             </div>
         </div>
     </div>
-    <footer class="bg-dark text-white mt-auto py-3">
-    <div class="container-fluid">
-        <div class="row text-center align-items-center">
-
-            <div class="col-lg-3">
-                <img src="/img/ots.png" alt="Logo" width="80">
-            </div>
-
-            <div class="col-lg-3">
-                Contacto
-            </div>
-
-            <div class="col-lg-2">
-                Redes Sociales
-            </div>
-
-            <div class="col-lg-2">
-                Nosotros
-            </div>
-
-            <div class="col-lg-2">
-                Datos legales
-            </div>
-
-        </div>
-    </div>
-</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-</body>
-</html>
 </main>
