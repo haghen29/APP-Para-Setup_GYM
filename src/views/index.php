@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6">
-                <div><img src="img/imagen1.jpg" class="img-fluid" alt="inicio"></div>
+                <div><img src="img/imagen1.jpeg" class="img-fluid" alt="inicio"></div>
             </div>
 
 </div>
