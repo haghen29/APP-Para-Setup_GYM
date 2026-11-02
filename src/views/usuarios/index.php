@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: lista vieja de usuarios del TPN11. Ya NO se usa: la reemplazó admin/usuarios.php.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <main class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-0">Usuarios</h1>

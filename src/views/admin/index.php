@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el resumen del panel admin con el total de formularios y de usuarios.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <main class="container py-4">
   <h1 class="h3 mb-3">Panel de administración</h1>
   <?php $seccion = "resumen"; require __DIR__ . "/_menu.php"; ?>

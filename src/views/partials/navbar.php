@@ -1,4 +1,11 @@
 <?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: la barra de arriba. Muestra "Iniciar sesión" o el nombre del usuario, "Cerrar sesión" y, si es admin, "Panel admin".
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
+<?php
 // Barra de navegación compartida. Usa los datos de la sesión para mostrar
 // "Iniciar sesión" (visitante) o el nombre del usuario + "Cerrar sesión".
 $logueado = !empty($_SESSION["user_id"]);

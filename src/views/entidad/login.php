@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el formulario de inicio de sesión, con mensajes de error, de cuenta creada o de "iniciá sesión para continuar".
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">

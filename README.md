@@ -27,6 +27,17 @@ Proyecto institucional **E.E.S.T Nº4 de Berazategui**.
 - Extensión PDO habilitada.
 - MySQL o PostgreSQL según la configuración en el archivo `.env`.
 
+## Arquitectura en capas
+
+```
+public/index.php -> src/bootstrap.php (arma la app)
+  src/routes/web.php       Rutas: qué dirección va a qué controlador
+  src/middlewares/         Porteros: sesión, admin y log
+  src/controllers/         Controladores: validan y deciden
+  src/models/              Modelos: todas las consultas SQL
+  src/views/               Vistas: el HTML que ve el usuario
+```
+
 ## Migraciones
 
 Colocá tus archivos `.sql` en `src/database/migrations/` y ejecuta:

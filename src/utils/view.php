@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * =====================================================================
+ * CAPA: UTILIDADES (ayudantes de la capa de vistas)
+ * =====================================================================
+ * QUÉ HACE: view() arma una página completa: genera la vista pedida y la mete dentro
+ * del molde layouts/base.php (que tiene la navbar y el footer). Los
+ * controladores la usan a través de Controller::render().
+ * =====================================================================
+ */
+
 use Slim\Views\PhpRenderer;
 use Psr\Http\Message\ResponseInterface;
 

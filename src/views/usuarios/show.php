@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: los datos de un usuario.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <main class="container py-4" style="max-width: 600px;">
   <h1 class="h3 mb-3"><?= html($usuario["nombre"] . " " . $usuario["apellido"]) ?></h1>
 

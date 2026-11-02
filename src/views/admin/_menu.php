@@ -1,4 +1,11 @@
 <?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: las pestañas del panel admin (Resumen, Formularios, Usuarios registrados). Marca la activa con $seccion.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
+<?php
 // Menú del panel de administración. $seccion marca la pestaña activa.
 $seccion = $seccion ?? "";
 ?>

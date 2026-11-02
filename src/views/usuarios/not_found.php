@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el aviso "Usuario no encontrado" (404).
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <main class="container py-5 text-center">
   <h1 class="display-6">Usuario no encontrado</h1>
   <p class="text-muted">El usuario que buscás no existe o fue eliminado.</p>

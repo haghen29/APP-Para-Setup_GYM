@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el molde de todas las páginas: carga Bootstrap, Font Awesome y tema.css, y pone la navbar arriba, el contenido ($content) en el medio y el footer abajo.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <?php $bodyClass = $bodyClass ?? ""; ?>
 <!doctype html>
 <html lang="es" class="<?= html($bodyClass) ?>">

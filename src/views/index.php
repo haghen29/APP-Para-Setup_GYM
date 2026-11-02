@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: la landing de Codegym Net: presentación, botón "Pedir servicio", carrusel de clientes, "¿Qué es Codegym Net?" y tarjetas de servicios.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <main>
     <div class="container-sm g-0">
         <div class="row g-0">
@@ -14,7 +21,10 @@
                      <h3> especializada en crear servicios web. </h3> 
                     </p>
                     <p class="text-center">
-                      <h3> plataforma  orientada a dueños/administradores  brindándoles una herramienta <span class="text-success">moderna</span>, intuitiva y fácil de utilizar para gestionar la información de sus clientes y las actividades diarias del negocio. </h3>
+                      <h3> plataforma  orientada a dueños/administradores 
+                         brindándoles una herramienta <span class="text-success">moderna</span>, 
+                         intuitiva y fácil de utilizar para gestionar la información de sus 
+                         clientes y las actividades diarias del negocio. </h3>
                 </p>
                 <a href="/pedir-servicio" class="btn btn-secondary btn-lg">
     Pedir servicio
@@ -22,7 +32,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-6">
-                <div><img src="img/ima2.avif" class="img-fluid" alt="inicio"></div>
+                <div><img src="img/imagen1.jpg" class="img-fluid" alt="inicio"></div>
             </div>
 
 </div>
@@ -39,10 +49,7 @@
       <img src="img/1.png" class="d-block mx-auto" style="height:260px;" alt="">
     </div>
     <div class="carousel-item">
-      <img src="img/2.png" class="d-block mx-auto" style="height: 260px;" alt="">
-    </div>
-    <div class="carousel-item">
-      <img src="img/ots.png" class="d-block mx-auto" style="height: 260px;" alt="">
+      <img src="img/rastro.jpeg" class="d-block mx-auto" style="height: 260px;" alt="">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">

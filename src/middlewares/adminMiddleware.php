@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * =====================================================================
+ * CAPA: MIDDLEWARE (portero, corre antes del controlador)
+ * =====================================================================
+ * QUÉ HACE: deja pasar solo a los usuarios con rol "admin". Si no lo son,
+ * muestra "Acceso denegado" (403). Corre después de authMiddleware.
+ * =====================================================================
+ */
+
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Http\Message\ResponseInterface as Response;

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * =====================================================================
+ * CAPA: MIDDLEWARE GLOBAL (corre en todos los pedidos)
+ * =====================================================================
+ * QUÉ HACE: anota cada pedido en la consola y en logs/app.log: fecha, método,
+ * dirección, código de respuesta y cuánto tardó. No cambia la respuesta.
+ * =====================================================================
+ */
+
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Http\Message\ResponseInterface as Response;

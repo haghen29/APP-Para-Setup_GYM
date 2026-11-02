@@ -1,4 +1,11 @@
 <?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el formulario "Pedir servicio" para clientes con sesión: tipo de servicio, empresa, teléfono y descripción.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
+<?php
 $old = $old ?? [];
 $enviado = $enviado ?? false;
 ?>

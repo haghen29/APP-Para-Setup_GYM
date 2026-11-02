@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * =====================================================================
+ * CAPA: MIDDLEWARE (portero, corre antes del controlador)
+ * =====================================================================
+ * QUÉ HACE: protege las páginas que necesitan sesión (Pedir servicio y el panel).
+ * Si no hay nadie logueado, manda al login y recuerda a qué página quería ir.
+ * Si hay sesión, deja pasar el pedido y le agrega el user_id.
+ * =====================================================================
+ */
+
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Http\Message\ResponseInterface as Response;

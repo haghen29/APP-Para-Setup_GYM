@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el formulario para que el admin cree un usuario (elige el rol).
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <?php $old = $old ?? []; ?>
 <main class="container py-4" style="max-width: 600px;">
   <h1 class="h3 mb-3">Crear usuario</h1>

@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el pie de página con el logo y los títulos de contacto, redes, nosotros y datos legales.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <footer class="bg-dark text-white mt-auto py-3">
     <div class="container-fluid">
         <div class="row text-center align-items-center">

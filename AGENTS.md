@@ -18,13 +18,15 @@ No hay suite de tests, linter, typechecker ni CI. Verificá los cambios ejecutan
 - `APP_ENV=dev` habilita el debugger de errores de Slim; `prod` lo deshabilita.
 - Requiere PDO con driver `mysql` o `pgsql`.
 
-## Arquitectura
+## Arquitectura (en capas)
 
-- Punto de entrada: `public/index.php` → `src/bootstrap.php`. **Todas las rutas están definidas como closures inline en `src/bootstrap.php`** — `src/routes/` y `src/controllers/` existen pero son placeholders vacíos (`gitkeep`); no asumas que están conectados.
-- El middleware de errores (`$app->addErrorMiddleware(...)`) está registrado al **final** de `bootstrap.php`, así que cualquier ruta/middleware nuevo debe agregarse antes de esa última línea.
-- Acceso a BD mediante la clase `Database` (`src/database/database.php`): `getConnection()` para lecturas, `runTransaction(Closure)` para escrituras. Nunca llames a `runTransaction` dentro de otra (las transacciones anidadas lanzan excepción).
-- Las vistas son PHP plano bajo `src/views/`, renderizadas con el helper global `view($renderer, $response, $template, $data, $layout)` (`src/utils/view.php`), que envuelve cada plantilla en `layouts/base.php`. Escapá la salida con `html(...)` (`src/utils/html.php`). Ambos helpers se autoloadan vía `autoload.files` de `composer.json`.
-- Convención ruta → vista (ver el bloque de comentarios TPN11 en `bootstrap.php`): `GET /admin/usuarios`, `/admin/usuarios/create`, `/admin/usuarios/update/{id}`, `/admin/usuarios/{id}`, más handlers POST/PUT/DELETE (el CRUD de usuarios vive dentro del panel admin; `/usuarios` solo redirige).
+- Punto de entrada: `public/index.php` → `src/bootstrap.php`. `bootstrap.php` solo arma la app: carga config, crea `Database`, `PhpRenderer`, los modelos y los controladores, registra las rutas y agrega los middlewares globales (el de errores va al final).
+- **Rutas** (`src/routes/web.php`): devuelve una función que recibe `$app` y los controladores y mapea cada dirección a `[$controlador, "metodo"]`. Acá se agregan `authMiddleware` / `adminMiddleware` a los grupos. No hay lógica.
+- **Controladores** (`src/controllers/`): heredan de `Controller` (`render()` y `redirigir()`). Validan lo que llega, llaman a los modelos y eligen la vista. `InicioController`, `AuthController`, `SolicitudController`, `AdminController`, `UsuarioController`.
+- **Modelos** (`src/models/`): todo el SQL vive acá (`UsuarioModel`, `SolicitudModel`), siempre con consultas preparadas. Escrituras con `Database::runTransaction()`. Nunca llames a `runTransaction` dentro de otra (las transacciones anidadas lanzan excepción). `crear()`/`actualizar()` de usuario devuelven `false` si el email está repetido (error 1062).
+- **Vistas** (`src/views/`): PHP plano, renderizadas con `view()` (`src/utils/view.php`) dentro de `layouts/base.php`. Escapá la salida con `html(...)`. Ambos helpers se autoloadan vía `autoload.files` de `composer.json`.
+- Los archivos de controladores y modelos se cargan con `require` en `bootstrap.php`: si agregás uno nuevo, sumalo ahí.
+- Cada archivo tiene arriba un comentario que dice a qué capa pertenece y qué hace.
 
 ## Migraciones
 

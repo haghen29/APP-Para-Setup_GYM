@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el detalle de un pedido de servicio.
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <main class="container py-4" style="max-width: 800px;">
   <h1 class="h3 mb-3">Formulario #<?= html((string) $formulario["id_solicitud"]) ?></h1>
 

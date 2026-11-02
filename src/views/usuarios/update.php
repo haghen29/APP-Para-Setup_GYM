@@ -1,3 +1,10 @@
+<?php
+/*
+ * CAPA: VISTA (lo que ve el usuario)
+ * QUÉ MUESTRA: el formulario para editar un usuario (manda _METHOD=PUT).
+ * Solo muestra datos que le pasa el controlador; no consulta la base.
+ */
+?>
 <main class="container py-4" style="max-width: 600px;">
   <h1 class="h3 mb-3">Editar usuario #<?= html((string) $usuario["id_usuario"]) ?></h1>
 
