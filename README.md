@@ -38,6 +38,26 @@ public/index.php -> src/bootstrap.php (arma la app)
   src/views/               Vistas: el HTML que ve el usuario
 ```
 
+## Correr con Docker
+
+Con Docker no hace falta instalar PHP, Composer ni MySQL. Solo necesitás [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
+```bash
+docker compose up --build
+```
+
+- La app queda en http://localhost:8080
+- La base MySQL arranca sola y las migraciones se aplican al iniciar.
+- Si querés entrar a la base desde afuera (por ejemplo con Workbench): `localhost:3307`, usuario `codegym`, contraseña `codegym`, base `codegym`.
+
+Para hacer admin a un usuario desde Docker:
+
+```bash
+docker compose exec db mysql -ucodegym -pcodegym codegym -e "UPDATE USUARIO SET rol='admin' WHERE email='tu@email.com';"
+```
+
+Para apagar todo: `docker compose down` (agregá `-v` si además querés borrar los datos de la base).
+
 ## Migraciones
 
 Colocá tus archivos `.sql` en `src/database/migrations/` y ejecuta:

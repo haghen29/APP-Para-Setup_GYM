@@ -1,0 +1,40 @@
+# Levanta la app y una base MySQL con un solo comando:
+#   docker compose up --build
+# La app queda en http://localhost:8080
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      APP_ENV: dev
+      DB_DRIVER: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: codegym
+      DB_USER: codegym
+      DB_PASS: codegym
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: codegym
+      MYSQL_USER: codegym
+      MYSQL_PASSWORD: codegym
+    ports:
+      - "3307:3306"
+    volumes:
+      - datos_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  datos_mysql:
