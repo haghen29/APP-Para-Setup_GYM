@@ -3,7 +3,7 @@
 /* =====================================================================
    Tema CodeGYM Net
    Solo estilos: no cambia el HTML ni la estructura de las páginas.
-   Se carga una vez desde layouts/base.php, después de Bootstrap 5.
+   Se carga una vez desde src/compartido/layouts/base.php, después de Bootstrap 5.
 
    Índice
    1. Variables y base

@@ -41,7 +41,7 @@ function logMiddleware(Request $request, RequestHandler $handler): Response
   //    y agregar la línea al final de logs/app.log.
   file_put_contents("php://stderr", $linea);
 
-  $directorio = __DIR__ . "/../../logs";
+  $directorio = __DIR__ . "/../../../logs"; // logs/ en la raíz del proyecto
   if (!is_dir($directorio)) {
     mkdir($directorio, 0777, true);
   }

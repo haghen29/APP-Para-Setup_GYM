@@ -2,22 +2,30 @@
 
 /*
  * =====================================================================
- * CAPA: UTILIDADES (ayudantes de la capa de vistas)
+ * COMPARTIDO: utilidades (ayudantes de la capa de vistas)
  * =====================================================================
  * QUÉ HACE: view() arma una página completa: genera la vista pedida y la mete dentro
- * del molde layouts/base.php (que tiene la navbar y el footer). Los
- * controladores la usan a través de Controller::render().
+ * del molde compartido/layouts/base.php (que tiene la navbar y el footer). Los
+ * controladores la usan a través de BaseController::render().
  * =====================================================================
  */
 
 use Slim\Views\PhpRenderer;
 use Psr\Http\Message\ResponseInterface;
 
+// Carpeta donde el motor de vistas (PhpRenderer) busca las páginas de cada entidad.
+const VISTAS_DIR = __DIR__ . "/../../views";
+
+// Las plantillas compartidas viven en src/compartido, afuera de src/views.
+// PhpRenderer busca todo relativo a VISTAS_DIR, por eso empiezan con "../compartido/".
+const LAYOUT_BASE = "../compartido/layouts/base.php";
+const VISTA_403 = "../compartido/errores/403.php";
+
 /**
  * Renderiza una vista con un layout intermedio opcional, envuelto en el  layout base.
  *
  * Flujo de renderizado:
- *   $template → [$layout →] layouts/base.php → $response
+ *   $template → [$layout →] LAYOUT_BASE → $response
  *
  * @param  PhpRenderer          $renderer  La instancia de PhpRenderer.
  * @param  ResponseInterface    $response  La respuesta HTTP para escribir la información.
@@ -40,7 +48,7 @@ function view(
     ? $renderer->fetch($layout, [...$data, "content" => $page])
     : $page;
 
-  return $renderer->render($response, "layouts/base.php", [
+  return $renderer->render($response, LAYOUT_BASE, [
     ...$data,
     "content" => $content,
   ]);

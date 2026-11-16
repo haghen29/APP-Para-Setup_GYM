@@ -20,12 +20,15 @@ No hay suite de tests, linter, typechecker ni CI. Verificá los cambios ejecutan
 
 ## Arquitectura (en capas)
 
-- Punto de entrada: `public/index.php` → `src/bootstrap.php`. `bootstrap.php` solo arma la app: carga config, crea `Database`, `PhpRenderer`, los modelos y los controladores, registra las rutas y agrega los middlewares globales (el de errores va al final).
-- **Rutas** (`src/routes/web.php`): devuelve una función que recibe `$app` y los controladores y mapea cada dirección a `[$controlador, "metodo"]`. Acá se agregan `authMiddleware` / `adminMiddleware` a los grupos. No hay lógica.
-- **Controladores** (`src/controllers/`): heredan de `Controller` (`render()` y `redirigir()`). Validan lo que llega, llaman a los modelos y eligen la vista. `InicioController`, `AuthController`, `SolicitudController`, `AdminController`, `UsuarioController`.
-- **Modelos** (`src/models/`): todo el SQL vive acá (`UsuarioModel`, `SolicitudModel`), siempre con consultas preparadas. Escrituras con `Database::runTransaction()`. Nunca llames a `runTransaction` dentro de otra (las transacciones anidadas lanzan excepción). `crear()`/`actualizar()` de usuario devuelven `false` si el email está repetido (error 1062).
-- **Vistas** (`src/views/`): PHP plano, renderizadas con `view()` (`src/utils/view.php`) dentro de `layouts/base.php`. Escapá la salida con `html(...)`. Ambos helpers se autoloadan vía `autoload.files` de `composer.json`.
-- Los archivos de controladores y modelos se cargan con `require` en `bootstrap.php`: si agregás uno nuevo, sumalo ahí.
+- Flujo: Routes → Controllers → Services → Persistence → base. Cada capa depende solo de la de abajo y **por su interfaz**. La interfaz va en la raíz de la carpeta (`XService.php`) y la implementación en `impl/` (`impl/XServiceImpl.php`). Saltear una capa solo si no hace falta, y con un comentario que explique por qué (ej. `InicioControllerImpl` no usa Service).
+- Punto de entrada: `public/index.php` → `src/bootstrap.php`. `bootstrap.php` solo arma la app: carga config, crea `Database`, `PhpRenderer`, DAO → Services → Controllers → `WebRoutesImpl`, registra las rutas y agrega los middlewares globales (el de errores va al final). Es el único lugar donde se nombran las clases `Impl`.
+- **Routes** (`src/routes/WebRoutes.php` + `impl/WebRoutesImpl.php`): recibe los controllers por constructor y mapea cada dirección a `[$controller, "metodo"]`. Acá se agregan `authMiddleware` / `adminMiddleware` a los grupos. No hay lógica.
+- **Controllers** (`src/controllers/` + `impl/`): las `Impl` heredan de `impl/BaseController` (`render()` y `redirigir()`). Leen y validan la entrada (campos completos, formatos, largos), manejan la sesión, llaman al Service y eligen la vista. No tienen reglas de negocio ni usan DAO. `InicioController`, `AuthController`, `SolicitudController`, `AdminController`, `UsuarioController`.
+- **Services** (`src/services/` + `impl/`): reglas de negocio (`AuthService`, `UsuarioService`, `SolicitudService`): encriptar contraseñas, registro siempre `cliente`, rol inválido → `cliente`, el admin no se borra a sí mismo, el usuario tiene que existir para pedir servicio. No conocen Request/Response, sesión ni SQL. Cada regla está comentada con `REGLA:` arriba de su función.
+- **Persistence** (`src/persistence/` + `impl/`): todo el SQL vive acá (`UsuarioDAO`, `SolicitudDAO`), siempre con consultas preparadas. Es lo único que usa `Database`. Escrituras con `Database::runTransaction()`. Nunca llames a `runTransaction` dentro de otra (las transacciones anidadas lanzan excepción). `crear()`/`actualizar()` de usuario reciben la contraseña ya encriptada y devuelven `false` si el email está repetido (error 1062); `SolicitudDAO::crear()` devuelve `false` si el usuario ya no existe (error 1452).
+- **Vistas** (`src/views/`): solo las páginas de cada entidad, en PHP plano, renderizadas con `view()` dentro del layout base. Escapá la salida con `html(...)`.
+- **Compartido** (`src/compartido/`): lo que usan todas las páginas. `middlewares/` (auth, admin, log), `layouts/base.php`, `partials/` (navbar, footer), `errores/403.php` y `utils/` (`html()`, `view()`; se autoloadan vía `autoload.files` de `composer.json`, después de moverlos correr `composer dump-autoload`). `PhpRenderer` busca relativo a `src/views` (`VISTAS_DIR`), por eso las plantillas compartidas se nombran con las constantes `LAYOUT_BASE` y `VISTA_403` de `compartido/utils/view.php`.
+- Los archivos de todas las capas se cargan con `require` en `bootstrap.php` (primero la interfaz, después la `Impl`): si agregás uno nuevo, sumalo ahí.
 - Cada archivo tiene arriba un comentario que dice a qué capa pertenece y qué hace.
 
 ## Migraciones
@@ -44,4 +47,4 @@ No hay suite de tests, linter, typechecker ni CI. Verificá los cambios ejecutan
 - `adminMiddleware` exige rol `admin` (403 si no). Registrarlo **antes** que `authMiddleware` en el `->add(...)` para que auth corra primero: `->add("adminMiddleware")->add("authMiddleware")`.
 - Rutas: `/pedir-servicio` (auth), `/admin`, `/admin/formularios`, `/admin/formularios/{id}`, `/admin/usuarios` y su CRUD (admin). Tabla `SOLICITUD_SERVICIO` en la migración `004`.
 - El primer admin no se crea desde la web: registrarse y luego `UPDATE USUARIO SET rol = 'admin' WHERE email = '...';`.
-- La navbar compartida está en `src/views/partials/navbar.php`.
+- La navbar compartida está en `src/compartido/partials/navbar.php`.

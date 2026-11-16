@@ -14,8 +14,8 @@
   },
   "autoload": {
     "files": [
-      "./src/utils/html.php",
-      "./src/utils/view.php"
+      "./src/compartido/utils/html.php",
+      "./src/compartido/utils/view.php"
     ]
   },
   "license": "MIT"

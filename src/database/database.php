@@ -6,8 +6,8 @@ declare(strict_types=1);
  * =====================================================================
  * CAPA: ACCESO A LA BASE (la base de la capa de datos)
  * =====================================================================
- * QUÉ HACE: es la conexión con MySQL. Los modelos (src/models) la usan para todas
- * sus consultas. Tiene dos funciones importantes:
+ * QUÉ HACE: es la conexión con MySQL. Solo la usan los DAO de src/persistence/impl
+ * para sus consultas. Tiene dos funciones importantes:
  *   - getConnection(): abre la conexión con PDO una sola vez y la reusa.
  *   - runTransaction(): corre varias escrituras juntas; si una falla, deshace
  *     todas (rollBack). O se guarda todo, o nada.

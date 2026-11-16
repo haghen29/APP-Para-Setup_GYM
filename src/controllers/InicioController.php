@@ -2,40 +2,24 @@
 
 /*
  * =====================================================================
- * CAPA: CONTROLADOR (lógica de la aplicación)
+ * CAPA: CONTROLLERS (interfaz)
  * =====================================================================
- * QUÉ HACE: atiende las páginas públicas más simples: la landing de
- * Codegym Net y las redirecciones de direcciones viejas.
- * No necesita la base de datos.
+ * QUÉ ES: el "contrato" de las páginas públicas simples (landing y
+ * redirecciones). La implementación está en impl/InicioControllerImpl.php.
  * =====================================================================
  */
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class InicioController extends Controller
+interface InicioController
 {
-  /**
-   * GET /index -> muestra la landing (src/views/index.php).
-   */
-  public function landing(Request $request, Response $response): Response
-  {
-    return $this->render($response, "index.php");
-  }
+  /** GET /index -> muestra la landing. */
+  public function landing(Request $request, Response $response): Response;
 
-  /**
-   * GET / -> la raíz del sitio lleva a la landing.
-   */
-  public function redirigirALanding(Request $request, Response $response): Response
-  {
-    return $this->redirigir($response, "/index");
-  }
+  /** GET / -> redirige a la landing. */
+  public function redirigirALanding(Request $request, Response $response): Response;
 
-  /**
-   * GET /usuarios -> dirección vieja: la lista de usuarios ahora está en el panel admin.
-   */
-  public function redirigirAUsuariosAdmin(Request $request, Response $response): Response
-  {
-    return $this->redirigir($response, "/admin/usuarios");
-  }
+  /** GET /usuarios -> dirección vieja: redirige al panel admin. */
+  public function redirigirAUsuariosAdmin(Request $request, Response $response): Response;
 }

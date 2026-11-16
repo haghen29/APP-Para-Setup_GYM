@@ -2,36 +2,29 @@
 
 /*
  * =====================================================================
- * CAPA: MODELO (acceso a datos)
+ * CAPA: PERSISTENCE (implementación)
  * =====================================================================
  * QUÉ HACE: es el único lugar que habla con las tablas USUARIO y CLIENTE.
- * Tiene una función por cada cosa que la app necesita hacer con los usuarios:
- * buscar, listar, contar, crear, actualizar y borrar.
+ * Una función por cada consulta: buscar, listar, contar, crear,
+ * actualizar y borrar.
  *
- * QUÉ NO HACE: no valida formularios ni arma pantallas. Recibe datos ya
- * revisados por el controlador y devuelve filas de la base.
+ * QUÉ NO HACE: no decide reglas de negocio (eso es UsuarioService).
+ * Por ejemplo, no encripta contraseñas: las recibe ya encriptadas.
  *
  * Todas las consultas son "preparadas" (prepare + ?), así lo que escribe el
  * usuario nunca se mezcla con el SQL (protege contra inyección SQL).
  * =====================================================================
  */
 
-class UsuarioModel
+class UsuarioDAOImpl implements UsuarioDAO
 {
   // Código de error de MySQL cuando se repite un valor UNIQUE (el email)
   private const ERROR_DUPLICADO = 1062;
 
-  /**
-   * Guarda la conexión a la base para usarla en todas las funciones.
-   */
   public function __construct(private Database $database)
   {
   }
 
-  /**
-   * Busca un usuario por email. Lo usa el login.
-   * Devuelve la fila (id, nombre, contraseña encriptada y rol) o null si no existe.
-   */
   public function buscarPorEmail(string $email): ?array
   {
     $query = $this->database->getConnection()->prepare(
@@ -42,10 +35,6 @@ class UsuarioModel
     return $query->fetch() ?: null;
   }
 
-  /**
-   * Busca un usuario por su id. Lo usan "ver" y "editar" del panel admin.
-   * Devuelve la fila completa o null si no existe.
-   */
   public function buscarPorId(string $id): ?array
   {
     $query = $this->database->getConnection()->prepare(
@@ -56,10 +45,6 @@ class UsuarioModel
     return $query->fetch() ?: null;
   }
 
-  /**
-   * Lista todos los usuarios con la cantidad de formularios que mandó cada uno.
-   * No trae la contraseña: el listado no la necesita.
-   */
   public function listarConCantidadDeFormularios(): array
   {
     $query = $this->database->getConnection()->query(
@@ -72,9 +57,6 @@ class UsuarioModel
     return $query->fetchAll();
   }
 
-  /**
-   * Cuenta cuántos usuarios hay. Lo usa el resumen del panel admin.
-   */
   public function contar(): int
   {
     return (int) $this->database->getConnection()
@@ -82,25 +64,25 @@ class UsuarioModel
       ->fetchColumn();
   }
 
-  /**
-   * Crea un usuario nuevo con la contraseña encriptada (password_hash).
-   * Devuelve true si se guardó, o false si ya existía alguien con ese email.
-   */
-  public function crear(string $nombre, string $apellido, string $email, string $contrasena, string $rol): bool
+  public function existe(string $id): bool
+  {
+    $query = $this->database->getConnection()->prepare(
+      "SELECT 1 FROM USUARIO WHERE id_usuario = ?"
+    );
+    $query->execute([$id]);
+
+    return (bool) $query->fetch();
+  }
+
+  public function crear(string $nombre, string $apellido, string $email, string $contrasenaHash, string $rol): bool
   {
     try {
-      $this->database->runTransaction(function (PDO $pdo) use ($nombre, $apellido, $email, $contrasena, $rol) {
+      $this->database->runTransaction(function (PDO $pdo) use ($nombre, $apellido, $email, $contrasenaHash, $rol) {
         $query = $pdo->prepare(
           "INSERT INTO USUARIO (nombre, apellido, email, contrasena, rol, fecha_registro)
            VALUES (?, ?, ?, ?, ?, CURDATE())"
         );
-        $query->execute([
-          $nombre,
-          $apellido,
-          $email,
-          password_hash($contrasena, PASSWORD_DEFAULT),
-          $rol,
-        ]);
+        $query->execute([$nombre, $apellido, $email, $contrasenaHash, $rol]);
       });
     } catch (PDOException $e) {
       if ($this->esEmailRepetido($e)) {
@@ -112,22 +94,17 @@ class UsuarioModel
     return true;
   }
 
-  /**
-   * Actualiza los datos de un usuario.
-   * Si $contrasena viene vacía, la contraseña NO se cambia.
-   * Devuelve true si se guardó, o false si el email ya lo usa otro usuario.
-   */
-  public function actualizar(string $id, string $nombre, string $apellido, string $email, string $contrasena, string $rol): bool
+  public function actualizar(string $id, string $nombre, string $apellido, string $email, ?string $contrasenaHash, string $rol): bool
   {
     try {
-      $this->database->runTransaction(function (PDO $pdo) use ($id, $nombre, $apellido, $email, $contrasena, $rol) {
-        if ($contrasena !== "") {
+      $this->database->runTransaction(function (PDO $pdo) use ($id, $nombre, $apellido, $email, $contrasenaHash, $rol) {
+        if ($contrasenaHash !== null) {
           $query = $pdo->prepare(
             "UPDATE USUARIO
              SET nombre = ?, apellido = ?, email = ?, contrasena = ?, rol = ?
              WHERE id_usuario = ?"
           );
-          $query->execute([$nombre, $apellido, $email, password_hash($contrasena, PASSWORD_DEFAULT), $rol, $id]);
+          $query->execute([$nombre, $apellido, $email, $contrasenaHash, $rol, $id]);
         } else {
           $query = $pdo->prepare(
             "UPDATE USUARIO
@@ -148,8 +125,8 @@ class UsuarioModel
   }
 
   /**
-   * Borra un usuario. Primero borra su fila de CLIENTE (que depende de USUARIO)
-   * y después el usuario. Sus formularios se borran solos (ON DELETE CASCADE).
+   * Primero borra su fila de CLIENTE (que depende de USUARIO) y después el usuario.
+   * Sus formularios se borran solos (ON DELETE CASCADE).
    * Todo va en una transacción: o se borra todo, o nada.
    */
   public function eliminar(string $id): void

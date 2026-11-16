@@ -30,13 +30,23 @@ Proyecto institucional **E.E.S.T Nº4 de Berazategui**.
 ## Arquitectura en capas
 
 ```
-public/index.php -> src/bootstrap.php (arma la app)
-  src/routes/web.php       Rutas: qué dirección va a qué controlador
-  src/middlewares/         Porteros: sesión, admin y log
-  src/controllers/         Controladores: validan y deciden
-  src/models/              Modelos: todas las consultas SQL
+public/index.php -> src/bootstrap.php (arma la app y conecta las capas)
+  src/routes/              Routes: qué dirección va a qué controlador (sin lógica)
+  src/compartido/          Lo que usan todas las páginas:
+    middlewares/           Porteros: sesión, admin y log
+    layouts/ partials/     Molde base, navbar y footer
+    errores/               Página 403
+    utils/                 Helpers html() y view()
+  src/controllers/         Controllers: validan la entrada y eligen la vista
+  src/services/            Services: reglas de negocio
+  src/persistence/         Persistence: todas las consultas SQL
   src/views/               Vistas: el HTML que ve el usuario
 ```
+
+Routes → Controllers → Services → Persistence → base de datos.
+En cada capa la interfaz va en la raíz de la carpeta (`UsuarioService.php`) y
+la clase que la implementa en `impl/` (`impl/UsuarioServiceImpl.php`). Cada capa
+usa la de abajo por su interfaz; las clases `Impl` solo se crean en `bootstrap.php`.
 
 ## Migraciones
 

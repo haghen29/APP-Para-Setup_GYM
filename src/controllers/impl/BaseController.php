@@ -2,19 +2,21 @@
 
 /*
  * =====================================================================
- * CAPA: CONTROLADOR (lógica de la aplicación) - clase base
+ * CAPA: CONTROLLERS - clase base (código común, no es un controller)
  * =====================================================================
- * QUÉ HACE: tiene lo que comparten TODOS los controladores, para no repetirlo:
+ * QUÉ HACE: tiene lo que comparten TODAS las implementaciones de controllers,
+ * para no repetirlo:
  *   - mostrar una vista (render)
  *   - mandar al usuario a otra dirección (redirigir)
- * Los demás controladores "heredan" de esta clase (extends Controller).
+ * Las clases XControllerImpl "heredan" de esta (extends BaseController)
+ * y además implementan su interfaz (implements XController).
  * =====================================================================
  */
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\PhpRenderer;
 
-abstract class Controller
+abstract class BaseController
 {
   /**
    * Guarda el motor de vistas para que lo usen los controladores hijos.
@@ -24,11 +26,11 @@ abstract class Controller
   }
 
   /**
-   * Arma una página: mete la vista dentro del molde layouts/base.php
-   * (con navbar y footer) usando el helper view() de src/utils/view.php.
+   * Arma una página: mete la vista dentro del molde compartido/layouts/base.php
+   * (con navbar y footer) usando el helper view() de src/compartido/utils/view.php.
    *
    * @param Response $response La respuesta donde se escribe el HTML.
-   * @param string   $vista    El archivo de src/views a mostrar (ej. "entidad/login.php").
+   * @param string   $vista    El archivo de src/views a mostrar (ej. "auth/login.php").
    * @param array    $datos    Las variables que usa la vista.
    * @param int      $estado   El código HTTP (200 bien, 404 no existe, 422 datos mal, etc.).
    */

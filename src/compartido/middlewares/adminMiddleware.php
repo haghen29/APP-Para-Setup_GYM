@@ -37,11 +37,11 @@ function adminMiddleware(Request $request, RequestHandler $handler): Response
 
   if (($_SESSION["user_rol"] ?? "") !== "admin") {
     $renderer = new PhpRenderer(
-      templatePath: __DIR__ . "/../views",
+      templatePath: VISTAS_DIR,
       attributes: ["title" => "Acceso denegado | CodeGYM Net"],
     );
 
-    return view($renderer, (new SlimResponse())->withStatus(403), "errores/403.php");
+    return view($renderer, (new SlimResponse())->withStatus(403), VISTA_403);
   }
 
   return $handler->handle($request);

@@ -7,16 +7,22 @@
  * Este archivo junta todas las capas y deja la app lista para correr:
  *   1. Carga las librerías, la configuración (.env) y los archivos de cada capa.
  *   2. Crea los objetos que se comparten: la base de datos, el motor de vistas,
- *      los modelos y los controladores.
- *   3. Le pide a la capa de rutas (src/routes/web.php) que registre las direcciones.
+ *      los DAO, los servicios y los controladores.
+ *   3. Le pide a la capa de rutas (WebRoutes) que registre las direcciones.
  *   4. Agrega los middlewares globales y devuelve la app a public/index.php.
  *
  * Las capas del proyecto, de afuera hacia adentro:
  *   Rutas        (src/routes)       -> qué dirección va a qué controlador
- *   Middlewares  (src/middlewares)  -> porteros: sesión, admin, log
- *   Controladores(src/controllers)  -> lógica: valida, decide, elige la vista
- *   Modelos      (src/models)       -> datos: todas las consultas SQL
+ *   Compartido   (src/compartido)   -> lo de todas las páginas: middlewares
+ *                                      (sesión, admin, log), layout, navbar,
+ *                                      footer, 403 y helpers html()/view()
+ *   Controladores(src/controllers)  -> valida y parsea la entrada, elige la vista
+ *   Services     (src/services)     -> reglas de negocio
+ *   Persistence  (src/persistence)  -> datos: todas las consultas SQL
  *   Vistas       (src/views)        -> lo que ve el usuario (HTML)
+ *
+ * Cada capa depende de la de abajo a través de su INTERFAZ; las clases
+ * Impl solo se nombran acá, al crear los objetos.
  * =====================================================================
  */
 
@@ -31,22 +37,42 @@ require __DIR__ . '/../vendor/autoload.php';
 // Capa de acceso a la base (conexión y transacciones)
 require __DIR__ . '/database/database.php';
 
-// Middlewares (porteros)
-require __DIR__ . '/middlewares/authMiddleware.php';
-require __DIR__ . '/middlewares/adminMiddleware.php';
-require __DIR__ . '/middlewares/logMiddleware.php';
+// Compartido: middlewares (porteros) que usan todas las páginas.
+// (Los helpers html() y view() de compartido/utils se cargan solos por composer.json)
+require __DIR__ . '/compartido/middlewares/authMiddleware.php';
+require __DIR__ . '/compartido/middlewares/adminMiddleware.php';
+require __DIR__ . '/compartido/middlewares/logMiddleware.php';
 
-// Capa de modelos (datos)
-require __DIR__ . '/models/UsuarioModel.php';
-require __DIR__ . '/models/SolicitudModel.php';
+// Capa Persistence: interfaces (contratos) y sus implementaciones (SQL)
+require __DIR__ . '/persistence/UsuarioDAO.php';
+require __DIR__ . '/persistence/SolicitudDAO.php';
+require __DIR__ . '/persistence/impl/UsuarioDAOImpl.php';
+require __DIR__ . '/persistence/impl/SolicitudDAOImpl.php';
 
-// Capa de controladores (lógica). Primero la clase base que heredan todos.
-require __DIR__ . '/controllers/Controller.php';
+// Capa Services: interfaces (contratos) y sus implementaciones (reglas de negocio)
+require __DIR__ . '/services/AuthService.php';
+require __DIR__ . '/services/UsuarioService.php';
+require __DIR__ . '/services/SolicitudService.php';
+require __DIR__ . '/services/impl/AuthServiceImpl.php';
+require __DIR__ . '/services/impl/UsuarioServiceImpl.php';
+require __DIR__ . '/services/impl/SolicitudServiceImpl.php';
+
+// Capa Controllers: interfaces (contratos), la clase base común y las implementaciones
 require __DIR__ . '/controllers/InicioController.php';
 require __DIR__ . '/controllers/AuthController.php';
 require __DIR__ . '/controllers/SolicitudController.php';
 require __DIR__ . '/controllers/AdminController.php';
 require __DIR__ . '/controllers/UsuarioController.php';
+require __DIR__ . '/controllers/impl/BaseController.php';
+require __DIR__ . '/controllers/impl/InicioControllerImpl.php';
+require __DIR__ . '/controllers/impl/AuthControllerImpl.php';
+require __DIR__ . '/controllers/impl/SolicitudControllerImpl.php';
+require __DIR__ . '/controllers/impl/AdminControllerImpl.php';
+require __DIR__ . '/controllers/impl/UsuarioControllerImpl.php';
+
+// Capa Routes: interfaz (contrato) y su implementación
+require __DIR__ . '/routes/WebRoutes.php';
+require __DIR__ . '/routes/impl/WebRoutesImpl.php';
 
 // --- 2. Configuración -------------------------------------------------------
 
@@ -86,31 +112,51 @@ const TIPOS_SERVICIO = [
 // La aplicación de Slim
 $app = AppFactory::create();
 
-// El motor de plantillas: busca las vistas en src/views
+// El motor de plantillas: busca las vistas en src/views (VISTAS_DIR, en compartido/utils/view.php)
 $renderer = new PhpRenderer(
-  templatePath: __DIR__ . "/views",
+  templatePath: VISTAS_DIR,
   attributes: ["title" => "PDI | Slim Template 2026"],
 );
 
 // La conexión a la base (se abre recién cuando se usa)
 $database = new Database();
 
-// Modelos: cada uno maneja una tabla
-$usuarioModel = new UsuarioModel($database);
-$solicitudModel = new SolicitudModel($database);
+// Persistence: se guardan en variables del tipo de la INTERFAZ (UsuarioDAO, SolicitudDAO)
+/** @var UsuarioDAO $usuarioDAO */
+$usuarioDAO = new UsuarioDAOImpl($database);
+/** @var SolicitudDAO $solicitudDAO */
+$solicitudDAO = new SolicitudDAOImpl($database);
 
-// Controladores: reciben el motor de vistas y los modelos que necesitan
-$controladores = [
-  "inicio" => new InicioController($renderer),
-  "auth" => new AuthController($renderer, $usuarioModel),
-  "solicitud" => new SolicitudController($renderer, $solicitudModel),
-  "admin" => new AdminController($renderer, $usuarioModel, $solicitudModel),
-  "usuario" => new UsuarioController($renderer, $usuarioModel),
-];
+// Services: reciben los DAO que necesitan (por su interfaz)
+/** @var AuthService $authService */
+$authService = new AuthServiceImpl($usuarioDAO);
+/** @var UsuarioService $usuarioService */
+$usuarioService = new UsuarioServiceImpl($usuarioDAO);
+/** @var SolicitudService $solicitudService */
+$solicitudService = new SolicitudServiceImpl($solicitudDAO, $usuarioDAO);
+
+// Controladores: reciben el motor de vistas y los servicios que necesitan (por su interfaz)
+/** @var InicioController $inicioController */
+$inicioController = new InicioControllerImpl($renderer);
+/** @var AuthController $authController */
+$authController = new AuthControllerImpl($renderer, $authService);
+/** @var SolicitudController $solicitudController */
+$solicitudController = new SolicitudControllerImpl($renderer, $solicitudService);
+/** @var AdminController $adminController */
+$adminController = new AdminControllerImpl($renderer, $usuarioService, $solicitudService);
+/** @var UsuarioController $usuarioController */
+$usuarioController = new UsuarioControllerImpl($renderer, $usuarioService);
 
 // --- 4. Rutas -----------------------------------------------------------------
-$registrarRutas = require __DIR__ . '/routes/web.php';
-$registrarRutas($app, $controladores);
+/** @var WebRoutes $rutas */
+$rutas = new WebRoutesImpl(
+  $inicioController,
+  $authController,
+  $solicitudController,
+  $adminController,
+  $usuarioController,
+);
+$rutas->registrar($app);
 
 // --- 5. Middlewares globales (corren en todos los pedidos) ---------------------
 $app->addBodyParsingMiddleware();          // lee los datos de los formularios
